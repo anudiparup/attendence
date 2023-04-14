@@ -29,7 +29,7 @@ class UserController extends Controller
     
             $success =  $user->createToken('MyApp')->plainTextToken; 
         
-            return Response(['token' => $success,'status'=>1],200);
+            return Response(['token' => $success,'status'=>1,'id'=>Auth::user()->id],200);
             //return $this->sendResponse(['token' => $success,'status'=>1], 'Login Success');
         }
 
