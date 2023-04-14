@@ -29,8 +29,8 @@ class UserController extends Controller
     
             $success =  $user->createToken('MyApp')->plainTextToken; 
         
-            //return Response(['token' => $success,'status'=>1],200);
-            return $this->sendResponse(['token' => $success,'status'=>1], 'Login Success');
+            return Response(['token' => $success,'status'=>1],200);
+            //return $this->sendResponse(['token' => $success,'status'=>1], 'Login Success');
         }
 
         return Response(['message' => 'user_id or password wrong','status'=>0],401);
