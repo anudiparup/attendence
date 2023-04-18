@@ -45,7 +45,7 @@ class AttendanceController extends Controller
                      $option->save();
                      return Response(['message' => 'updated successfully','status'=>1],200);
                  }
-                 Attendance::create(['user_id' => $request->user_id,'atten_date' => date('Y-m-d'),'punch_in'=>date('H:i:s'),'lat'=>$request->lat,'long'=>$request->long]);
+                 Attendance::create(['user_id' => $request->user_id,'atten_date' => date('Y-m-d'),'punch_in'=>date('H:i:s'),'lat'=>$request->lat,'long'=>$request->long,'member_id'=>$request->member_id]);
              
                 // $this->sendResponse(['message' => 'inserted successfully','status'=>1], 'inserted successfully');
                 DB::commit();
