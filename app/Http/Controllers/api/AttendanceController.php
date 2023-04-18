@@ -55,9 +55,11 @@ class AttendanceController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Attendance $attendance)
+    public function fetchAttendance($user_id)
     {
         //
+        $details = Attendance::where('atten_date', date('Y-m-d'))->where('user_id',$user_id)->get();
+        return Response(['datas' => $details,'status'=>1],200);
     }
 
     /**
