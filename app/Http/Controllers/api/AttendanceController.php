@@ -62,7 +62,12 @@ class AttendanceController extends Controller
     {
         //
         $details = Attendance::where('atten_date', date('Y-m-d'))->where('user_id',$user_id)->get();
-        $x=['punch_in'=>$details[0]->punch_in,'punch_out'=>$details[0]->punch_out,'atten_date'=>$details[0]->atten_date];
+        if(sizeof($details)>0){
+            $x=['punch_in'=>$details[0]->punch_in,'punch_out'=>$details[0]->punch_out,'atten_date'=>$details[0]->atten_date];
+        }
+        else{
+            $x=[];
+        }
         return Response(['datas' => $x,'status'=>1],200);
     }
 
