@@ -30,6 +30,7 @@ class AttendanceController extends Controller
     {
         //
          //
+         dd(Carbon::parse($request->atten_date)->format('Y-m-d'));
          DB::beginTransaction();
          try { 
                  $details = Attendance::where('atten_date', Carbon::parse($request->atten_date)->format('Y-m-d'))->get();
