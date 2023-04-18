@@ -38,13 +38,16 @@ class AttendanceController extends Controller
                  if(sizeof($details)>0){
  
                     Attendance::where('atten_date', date('Y-m-d'))->update(['punch_out'=>date('H:i:s'),'lat'=>$request->lat,'long'=>$request->long]);
-                     return Response(['message' => 'updated successfully','status'=>1],200);
+                    $x=['punch_out'=>date('H:i:s'),'atten_date' => date('Y-m-d')];
+                    DB::commit();
+                     return Response(['message' => 'updated successfully','status'=>1,'data'=>$x],200);
                  }
                  Attendance::create(['user_id' => $request->user_id,'atten_date' => date('Y-m-d'),'punch_in'=>date('H:i:s'),'lat'=>$request->lat,'long'=>$request->long,'member_id'=>$request->member_id]);
              
                 // $this->sendResponse(['message' => 'inserted successfully','status'=>1], 'inserted successfully');
+                $x=['punch_in'=>date('H:i:s'),'atten_date' => date('Y-m-d')];
                 DB::commit();
-                return Response(['message' => 'inserted successfully','status'=>1],200);
+                return Response(['message' => 'inserted successfully','status'=>1,'data'=>$x],200);
  
          } catch (Exception $e) { 
              DB::rollback();
