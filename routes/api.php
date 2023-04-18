@@ -30,5 +30,5 @@ Route::group(['middleware' => 'auth:sanctum'],function(){
     Route::get('user',[UserController::class,'userDetails']);
     Route::get('logout',[UserController::class,'logout']);
     Route::post('store-attendance',[AttendanceController::class,'storeAttendance']);
-    Route::get('fetch-attendance/{user_id}',[UserController::class,'userDetails']);
+    Route::get('fetch-attendance/{user_id}',[AttendanceController::class,'fetchAttendance']);
 });
