@@ -43,16 +43,9 @@ class AttendanceController extends Controller
                      $option->save();
                      $this->sendResponse(['message' => 'Updated successfully','status'=>1], 'Updated successfully');
                  }
-             $data = new Attendance;
-     
-             $data->user_id = $request->user_id;
-             $data->atten_date = date('Y-m-d');
-             $data->punch_in = date('H:i:s');
-             //$data->punch_out = date('H:i:s');
-             $data->lat = $request->lat;
-             $data->long = $request->long;
-             $data->save();
-             $this->sendResponse(['message' => 'inserted successfully','status'=>1], 'inserted successfully');
+                 Attendance::create(['user_id' => $request->user_id,'atten_date' => date('Y-m-d'),'punch_in'=>date('H:i:s'),'lat'=>$request->lat,'long'=>$request->long]);
+             
+                $this->sendResponse(['message' => 'inserted successfully','status'=>1], 'inserted successfully');
  
          } catch (Exception $e) { 
              DB::rollback();
