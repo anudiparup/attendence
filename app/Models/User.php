@@ -19,7 +19,7 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name',
-        'user_id',
+        'username',
         'email',
         'mobile_no',
         'password',
@@ -44,4 +44,8 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+    public function attendance()
+    {
+        return $this->hasMany('App\Models\Attendance');
+    }
 }
