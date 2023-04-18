@@ -43,11 +43,12 @@ class AttendanceController extends Controller
                      $option->long = $request->long;
                      $option->punch_out = date('H:i:s');
                      $option->save();
-                     $this->sendResponse(['message' => 'Updated successfully','status'=>1], 'Updated successfully');
+                     return Response(['message' => 'updated successfully','status'=>1],200);
                  }
                  Attendance::create(['user_id' => $request->user_id,'atten_date' => date('Y-m-d'),'punch_in'=>date('H:i:s'),'lat'=>$request->lat,'long'=>$request->long]);
              
-                $this->sendResponse(['message' => 'inserted successfully','status'=>1], 'inserted successfully');
+                // $this->sendResponse(['message' => 'inserted successfully','status'=>1], 'inserted successfully');
+                return Response(['message' => 'inserted successfully','status'=>1],200);
  
          } catch (Exception $e) { 
              DB::rollback();
