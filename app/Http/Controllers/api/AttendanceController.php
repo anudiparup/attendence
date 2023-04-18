@@ -28,32 +28,27 @@ class AttendanceController extends Controller
      */
     public function storeAttendance(Request $request)
     {
-        //
-         //
-         dd(Carbon::parse($request->atten_date)->format('Y-m-d'));
+        
          DB::beginTransaction();
          try { 
-                 $details = Attendance::where('atten_date', Carbon::parse($request->atten_date)->format('Y-m-d'))->get();
+                 date_default_timezone_set('Asia/Calcutta');
+                 $details = Attendance::where('atten_date', date('Y-m-d'))->get();
                  if(sizeof($details)>0){
  
                      $option = Attendance::where('atten_date', '=', Carbon::parse($request->atten_date)->format('Y-m-d'))->get();
                  
                      $option->lat = $request->lat;
                      $option->long = $request->long;
-                     $option->punch_out = Carbon::parse($request->atten)->format('Y-m-d');
+                     $option->punch_out = date('H:i:s');
                      $option->save();
                      $this->sendResponse(['message' => 'Updated successfully','status'=>1], 'Updated successfully');
                  }
- 
- 
-             
- 
              $data = new Attendance;
      
              $data->user_id = $request->user_id;
-             $data->atten_date = Carbon::parse($request->atten)->format('Y-m-d');
-             $data->punch_in = Carbon::parse($request->atten)->format('Y-m-d');
-             $data->punch_out = Carbon::parse($request->atten)->format('Y-m-d');
+             $data->atten_date = date('Y-m-d');
+             $data->punch_in = date('H:i:s');
+             $data->punch_out = date('H:i:s');
              $data->lat = $request->lat;
              $data->long = $request->long;
              $data->save();
@@ -62,7 +57,7 @@ class AttendanceController extends Controller
          } catch (Exception $e) { 
              DB::rollback();
              return $this->sendError($e->getMessage());
-     }
+         }
     }
 
     /**
