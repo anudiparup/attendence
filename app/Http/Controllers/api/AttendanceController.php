@@ -37,12 +37,7 @@ class AttendanceController extends Controller
                  $details = Attendance::where('atten_date', date('Y-m-d'))->get();
                  if(sizeof($details)>0){
  
-                     $option = Attendance::where('atten_date', '=', date('Y-m-d'))->get();
-                 
-                     $option->lat = $request->lat;
-                     $option->long = $request->long;
-                     $option->punch_out = date('H:i:s');
-                     $option->save();
+                    Attendance::where('atten_date', date('Y-m-d'))->update(['punch_out'=>date('H:i:s'),'lat'=>$request->lat,'long'=>$request->long]);
                      return Response(['message' => 'updated successfully','status'=>1],200);
                  }
                  Attendance::create(['user_id' => $request->user_id,'atten_date' => date('Y-m-d'),'punch_in'=>date('H:i:s'),'lat'=>$request->lat,'long'=>$request->long,'member_id'=>$request->member_id]);
