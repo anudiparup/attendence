@@ -48,6 +48,7 @@ class AttendanceController extends Controller
                  Attendance::create(['user_id' => $request->user_id,'atten_date' => date('Y-m-d'),'punch_in'=>date('H:i:s'),'lat'=>$request->lat,'long'=>$request->long]);
              
                 // $this->sendResponse(['message' => 'inserted successfully','status'=>1], 'inserted successfully');
+                DB::commit();
                 return Response(['message' => 'inserted successfully','status'=>1],200);
  
          } catch (Exception $e) { 
