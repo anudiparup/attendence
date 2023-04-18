@@ -38,7 +38,7 @@ class AttendanceController extends Controller
                  if(sizeof($details)>0){
  
                     Attendance::where('atten_date', date('Y-m-d'))->update(['punch_out'=>date('H:i:s'),'lat'=>$request->lat,'long'=>$request->long]);
-                    $x=['punch_out'=>date('H:i:s'),'atten_date' => date('Y-m-d')];
+                    $x=['punch_out'=>date('H:i:s'),'atten_date' => date('Y-m-d'),'punch_in'=>$details[0]->punch_in];
                     DB::commit();
                      return Response(['message' => 'updated successfully','status'=>1,'data'=>$x],200);
                  }
