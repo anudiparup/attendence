@@ -29,5 +29,5 @@ Route::post('login',[UserController::class,'loginUser']);
 Route::group(['middleware' => 'auth:sanctum'],function(){
     Route::get('user',[UserController::class,'userDetails']);
     Route::get('logout',[UserController::class,'logout']);
-    Route::post('store-attendance',[AttendanceController::class,'storeAttendance']);
+    //Route::post('store-attendance',[AttendanceController::class,'storeAttendance']);
 });

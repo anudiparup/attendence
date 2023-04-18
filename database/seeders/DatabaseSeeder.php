@@ -19,7 +19,7 @@ class DatabaseSeeder extends Seeder
             'username' => 'AF0123FG',
             'email' => 'test@example.com',
             'mobile_no'=>'9878767654',
-            'password' => bcrypt('AF0123FG'),
+            'password' => bcrypt('123'),
 
             
         ]);
