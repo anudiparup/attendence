@@ -5,6 +5,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Attendance;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
+use DB;
 class AttendanceController extends Controller
 {
     /**
