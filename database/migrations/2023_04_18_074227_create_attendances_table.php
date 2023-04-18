@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id');
             $table->date('atten_date')->nullable();
-            $table->time('punch_id')->nullable();
+            $table->time('punch_in')->nullable();
             $table->time('punch_out')->nullable();
             $table->string('lat')->nullable();
             $table->string('long')->nullable();
