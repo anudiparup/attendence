@@ -35,7 +35,7 @@ class AttendanceController extends Controller
                  $details = Attendance::where('atten_date', date('Y-m-d'))->get();
                  if(sizeof($details)>0){
  
-                     $option = Attendance::where('atten_date', '=', Carbon::parse($request->atten_date)->format('Y-m-d'))->get();
+                     $option = Attendance::where('atten_date', '=', date('Y-m-d'))->get();
                  
                      $option->lat = $request->lat;
                      $option->long = $request->long;
@@ -48,7 +48,7 @@ class AttendanceController extends Controller
              $data->user_id = $request->user_id;
              $data->atten_date = date('Y-m-d');
              $data->punch_in = date('H:i:s');
-             $data->punch_out = date('H:i:s');
+             //$data->punch_out = date('H:i:s');
              $data->lat = $request->lat;
              $data->long = $request->long;
              $data->save();
