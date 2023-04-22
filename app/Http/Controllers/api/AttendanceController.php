@@ -54,7 +54,7 @@ class AttendanceController extends Controller
 
                  $postParameter = ['user_id' => $request->user_id,'atten_date' => date('Y-m-d'),'punch_in'=>date('H:i:s'),'lat'=>$request->lat,'long'=>$request->long,'member_id'=>$request->member_id,'member_code'=>$request->member_code,'status'=>0,'transfer_status'=>0,'attn_type'=>$attn_type,'member_type'=>$member_type];
                 
-                $curlHandle = curl_init('http://domain-name/endpoint-path');
+                $curlHandle = curl_init('https://cmis3api.anudip.org/api/insertFromAttenApp');
                 curl_setopt($curlHandle, CURLOPT_POSTFIELDS, $postParameter);
                 curl_setopt($curlHandle, CURLOPT_RETURNTRANSFER, true);
                 
