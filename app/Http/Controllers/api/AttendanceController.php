@@ -59,12 +59,13 @@ class AttendanceController extends Controller
                 curl_setopt($curlHandle, CURLOPT_RETURNTRANSFER, true);
                 
                 $curlResponse = curl_exec($curlHandle);
-                dd($curlResponse);
+                //dd($curlResponse);
+
                 curl_close($curlHandle);
              
                 // $this->sendResponse(['message' => 'inserted successfully','status'=>1], 'inserted successfully');
                 $x=['punch_in'=>date('H:i:s'),'atten_date' => date('Y-m-d')];
-                //DB::commit();
+                DB::commit();
                 return Response(['message' => 'inserted successfully','status'=>1,'data'=>$x],200);
  
          } catch (Exception $e) { 
