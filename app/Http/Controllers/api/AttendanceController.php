@@ -42,11 +42,29 @@ class AttendanceController extends Controller
                     DB::commit();
                      return Response(['message' => 'updated successfully','status'=>1,'data'=>$x],200);
                  }
-                 Attendance::create(['user_id' => $request->user_id,'atten_date' => date('Y-m-d'),'punch_in'=>date('H:i:s'),'lat'=>$request->lat,'long'=>$request->long,'member_id'=>$request->member_id]);
+                 if(str_starts_with($request->member_code, 'AF')){
+                   $member_type='student';
+                 }else{
+                    $member_type='staff';
+                 }
+                 
+                 $attn_type='present';
+                 Attendance::create(['user_id' => $request->user_id,'atten_date' => date('Y-m-d'),'punch_in'=>date('H:i:s'),'lat'=>$request->lat,'long'=>$request->long,'member_id'=>$request->member_id,'member_code'=>$request->member_code,'status'=>0,'transfer_status'=>0,'attn_type'=>$attn_type,'member_type'=>$member_type]);
+
+
+                 $postParameter = ['user_id' => $request->user_id,'atten_date' => date('Y-m-d'),'punch_in'=>date('H:i:s'),'lat'=>$request->lat,'long'=>$request->long,'member_id'=>$request->member_id,'member_code'=>$request->member_code,'status'=>0,'transfer_status'=>0,'attn_type'=>$attn_type,'member_type'=>$member_type];
+                
+                $curlHandle = curl_init('http://domain-name/endpoint-path');
+                curl_setopt($curlHandle, CURLOPT_POSTFIELDS, $postParameter);
+                curl_setopt($curlHandle, CURLOPT_RETURNTRANSFER, true);
+                
+                $curlResponse = curl_exec($curlHandle);
+                dd($curlResponse);
+                curl_close($curlHandle);
              
                 // $this->sendResponse(['message' => 'inserted successfully','status'=>1], 'inserted successfully');
                 $x=['punch_in'=>date('H:i:s'),'atten_date' => date('Y-m-d')];
-                DB::commit();
+                //DB::commit();
                 return Response(['message' => 'inserted successfully','status'=>1,'data'=>$x],200);
  
          } catch (Exception $e) { 

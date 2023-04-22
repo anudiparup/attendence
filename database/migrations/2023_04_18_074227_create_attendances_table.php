@@ -20,6 +20,11 @@ return new class extends Migration
             $table->string('lat')->nullable();
             $table->string('long')->nullable();
             $table->integer('member_id')->nullable();
+            $table->string('member_code')->nullable();
+            $table->string('member_type')->nullable();
+            $table->integer('transfer_status')->default(0);
+            $table->string('atten_type')->nullable();
+            $table->integer('status')->default(0);
             $table->timestamps();
         });
     }
