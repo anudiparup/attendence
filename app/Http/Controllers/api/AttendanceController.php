@@ -34,20 +34,28 @@ class AttendanceController extends Controller
         DB::beginTransaction();
         try { 
             date_default_timezone_set('Asia/Calcutta');
+            if(str_starts_with($request->member_code, 'AF')){
+                $member_type='student';
+                }else{
+                $member_type='staff';
+                }
+                $attn_type=$request->attend_date==date('Y-m-d')?'present':'past';
+                $postParameter = ['user_id' => $request->user_id,'atten_date' => $request->attend_date,'punch_in'=>date('H:i:s'),'lat'=>$request->lat,'long'=>$request->long,'member_id'=>$request->member_id,'member_code'=>$request->member_code,'status'=>0,'transfer_status'=>0,'atten_type'=>$attn_type,'member_type'=>$member_type];
+                
             $details = Attendance::where('atten_date', $request->attend_date)->get();
             if(sizeof($details)>0){
+            $curlHandle = curl_init('https://cmis3api.anudip.org/api/insertFromAttenApp');
+            curl_setopt($curlHandle, CURLOPT_POSTFIELDS, $postParameter);
+            curl_setopt($curlHandle, CURLOPT_RETURNTRANSFER, true);
+            $curlResponse = curl_exec($curlHandle);
+            //dd($curlResponse);
+            curl_close($curlHandle);
             Attendance::where('atten_date', $request->attend_date)->update(['punch_out'=>date('H:i:s'),'lat'=>$request->lat,'long'=>$request->long]);
             $x=['punch_out'=>date('H:i:s'),'atten_date' => $request->attend_date,'punch_in'=>$details[0]->punch_in];
             DB::commit();
                 return Response(['message' => 'updated successfully','status'=>1,'data'=>$x],200);
             }
-            if(str_starts_with($request->member_code, 'AF')){
-            $member_type='student';
-            }else{
-            $member_type='staff';
-            }
-            $attn_type=$request->attend_date==date('Y-m-d')?'present':'past';
-            $postParameter = ['user_id' => $request->user_id,'atten_date' => $request->attend_date,'punch_in'=>date('H:i:s'),'lat'=>$request->lat,'long'=>$request->long,'member_id'=>$request->member_id,'member_code'=>$request->member_code,'status'=>0,'transfer_status'=>0,'atten_type'=>$attn_type,'member_type'=>$member_type];
+            
             Attendance::create($postParameter);
             $curlHandle = curl_init('https://cmis3api.anudip.org/api/insertFromAttenApp');
             curl_setopt($curlHandle, CURLOPT_POSTFIELDS, $postParameter);
