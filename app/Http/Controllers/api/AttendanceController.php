@@ -47,7 +47,7 @@ class AttendanceController extends Controller
             $member_type='staff';
             }
             $attn_type='present';
-            $postParameter = ['user_id' => $request->user_id,'atten_date' => $request->atten_date,'punch_in'=>date('H:i:s'),'lat'=>$request->lat,'long'=>$request->long,'member_id'=>$request->member_id,'member_code'=>$request->member_code,'status'=>0,'transfer_status'=>0,'attn_type'=>$attn_type,'member_type'=>$member_type];
+            $postParameter = ['user_id' => $request->user_id,'atten_date' => $request->atten_date,'punch_in'=>date('H:i:s'),'lat'=>$request->lat,'long'=>$request->long,'member_id'=>$request->member_id,'member_code'=>$request->member_code,'status'=>0,'transfer_status'=>0,'atten_type'=>$attn_type,'member_type'=>$member_type];
             Attendance::create($postParameter);
             $curlHandle = curl_init('https://cmis3api.anudip.org/api/insertFromAttenApp');
             curl_setopt($curlHandle, CURLOPT_POSTFIELDS, $postParameter);
