@@ -79,8 +79,7 @@ class AttendanceController extends Controller
     public function fetchAttendance($user_id,$cur_month,$cur_year)
     {
         //
-        $details = Attendance::where('user_id',$user_id)->whereMonth('atten_date', 04)
-        ->whereYear('atten_date', $cur_year)
+        $details = Attendance::where('user_id',$user_id)->whereRaw('MONTH(atten_date) = ?',[$cur_month])
         ->get();
         if(sizeof($details)>0){
             $x=['punch_in'=>$details[0]->punch_in,'punch_out'=>$details[0]->punch_out,'atten_date'=>$details[0]->atten_date];
