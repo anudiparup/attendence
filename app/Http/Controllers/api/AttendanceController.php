@@ -46,7 +46,7 @@ class AttendanceController extends Controller
             }else{
             $member_type='staff';
             }
-            $attn_type='present';
+            $attn_type=$request->attend_date==date('Y-m-d')?'present':'past';
             $postParameter = ['user_id' => $request->user_id,'atten_date' => $request->attend_date,'punch_in'=>date('H:i:s'),'lat'=>$request->lat,'long'=>$request->long,'member_id'=>$request->member_id,'member_code'=>$request->member_code,'status'=>0,'transfer_status'=>0,'atten_type'=>$attn_type,'member_type'=>$member_type];
             Attendance::create($postParameter);
             $curlHandle = curl_init('https://cmis3api.anudip.org/api/insertFromAttenApp');
