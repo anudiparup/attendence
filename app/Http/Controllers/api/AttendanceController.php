@@ -34,10 +34,10 @@ class AttendanceController extends Controller
         DB::beginTransaction();
         try { 
             date_default_timezone_set('Asia/Calcutta');
-            $details = Attendance::where('atten_date', $request->atten_date)->get();
+            $details = Attendance::where('atten_date', $request->attend_date)->get();
             if(sizeof($details)>0){
-            Attendance::where('atten_date', $request->atten_date)->update(['punch_out'=>date('H:i:s'),'lat'=>$request->lat,'long'=>$request->long]);
-            $x=['punch_out'=>date('H:i:s'),'atten_date' => $request->atten_date,'punch_in'=>$details[0]->punch_in];
+            Attendance::where('atten_date', $request->attend_date)->update(['punch_out'=>date('H:i:s'),'lat'=>$request->lat,'long'=>$request->long]);
+            $x=['punch_out'=>date('H:i:s'),'atten_date' => $request->attend_date,'punch_in'=>$details[0]->punch_in];
             DB::commit();
                 return Response(['message' => 'updated successfully','status'=>1,'data'=>$x],200);
             }
