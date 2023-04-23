@@ -15,7 +15,12 @@ class Attendance extends Model
         'punch_out',
         'lat',
         'long',
-        'member_id'
+        'member_id',
+        'member_code',
+        'member_type',
+        'transfer_status',
+        'atten_type',
+        'status'
     ];
     public function user()
     {
