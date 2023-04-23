@@ -53,6 +53,7 @@ class AttendanceController extends Controller
             curl_setopt($curlHandle, CURLOPT_POSTFIELDS, $postParameter);
             curl_setopt($curlHandle, CURLOPT_RETURNTRANSFER, true);
             $curlResponse = curl_exec($curlHandle);
+            dd($curlResponse);
             curl_close($curlHandle);
             $x=['punch_in'=>date('H:i:s'),'atten_date' => date('Y-m-d')];
             DB::commit();
