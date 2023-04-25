@@ -90,7 +90,7 @@ class AttendanceController extends Controller
         // else{
         //     $x=[];
         // }
-        return Response(['datas' => $details,'status'=>1],200);
+        return Response(['datas' => $details,'status'=>1,'cur_date'=>date('Y-m-d')],200);
     }
 
     /**
