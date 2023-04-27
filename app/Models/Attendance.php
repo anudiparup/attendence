@@ -20,7 +20,8 @@ class Attendance extends Model
         'member_type',
         'transfer_status',
         'atten_type',
-        'status'
+        'status',
+        'atten_image'
     ];
     public function user()
     {

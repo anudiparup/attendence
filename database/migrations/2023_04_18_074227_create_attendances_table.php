@@ -25,6 +25,7 @@ return new class extends Migration
             $table->integer('transfer_status')->default(0);
             $table->string('atten_type')->nullable();
             $table->integer('status')->default(0);
+            $table->string('atten_image')->nullable();
             $table->timestamps();
         });
     }
