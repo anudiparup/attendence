@@ -42,6 +42,8 @@ class AttendanceController extends Controller
                 }
                 $attn_type=$request->attend_date==date('Y-m-d')?'present':'past';
                 $postParameter = ['user_id' => $request->user_id,'atten_date' => $request->attend_date,'punch_in'=>date('H:i:s'),'lat'=>$request->lat,'long'=>$request->long,'member_id'=>$request->member_id,'member_code'=>$request->member_code,'status'=>2,'transfer_status'=>1,'atten_type'=>$attn_type,'member_type'=>$member_type];
+
+                
                 
             $details = Attendance::where('atten_date', $request->attend_date)->get();
             if(sizeof($details)>0){
@@ -116,5 +118,26 @@ class AttendanceController extends Controller
     public function destroy(Attendance $attendance)
     {
         //
+    }
+    public function imageUpload(Request $request){
+        // $file = $request->file('wcc_file');
+        
+        // //foreach ($files as $file) { 
+
+        //   $filename = $file->getClientOriginalName();
+        //   $file_ext = $file->extension();// get file extention
+        //   $filename = $member_code."-".$doctype;
+        //   $destinationPath = "uploads/wcc";
+
+          $image = $request->file('file');
+            $input['file'] = time().'.'.$image->getClientOriginalExtension();
+            
+            $destinationPath = public_path('/abc');
+            $imgFile = Image::make($image->getRealPath());
+            $imgFile->resize(150, 150, function ($constraint) {
+                $constraint->aspectRatio();
+            })->save($destinationPath.'/'.$input['file']);
+            // $destinationPath = public_path('/uploads');
+            // $image->move($destinationPath, $input['file']);
     }
 }
