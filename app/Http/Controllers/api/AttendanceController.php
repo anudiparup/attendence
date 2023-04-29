@@ -147,7 +147,7 @@ class AttendanceController extends Controller
         //return Response(['data' => $request->all()],200);
         $x=[];
         foreach($request->all() as $r){
-            array_push($x,$r->member_code);
+            array_push($x,json_decode($r));
             
         }
         return Response(['data' => $x],200);
