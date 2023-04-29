@@ -144,7 +144,9 @@ class AttendanceController extends Controller
     public function insertIntoAttendanceFromCMIS(Request $request){
        
         //return $this->continue_func(56);
+        $x=[];
         foreach($request->all() as $r){
+            array_push($x,$r);
             return Response(['data' => $r],200);
         }
        
