@@ -147,9 +147,9 @@ class AttendanceController extends Controller
         $x=[];
         foreach(json_decode($request->all()) as $r){
             array_push($x,$r);
-            return Response(['data' => $r],200);
+            
         }
-       
+        return Response(['data' => $x],200);
         return Response(['datas' => $request->all(),'status'=>1,'cur_date'=>date('Y-m-d')],200);
         try{
           $student_id = Attendance::create([
