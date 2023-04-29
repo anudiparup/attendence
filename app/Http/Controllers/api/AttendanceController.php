@@ -150,18 +150,24 @@ class AttendanceController extends Controller
             array_push($x,$r['member_code']);
             
         }
-        return Response(['data' => $x],200);
-        return Response(['datas' => $request->all(),'status'=>1,'cur_date'=>date('Y-m-d')],200);
         try{
-          $student_id = Attendance::create([
-            'name' => 'Test User',
-            'username' => 'AF0123FG',
-            'email' => 'test@example.com',
-            'mobile_no'=>'9878767654',
-            'password' => bcrypt('123'),
+            foreach($request->all() as $r){
 
-            
-            ]);
+                $student_id = Users::create([
+                    'name' => $r['first_name']." ".$r['last_name'],
+                    'username' =>$r['member_code'],
+                    'email' => $r['email_id'],
+                    'mobile_no'=>$r['mobile_no'],
+                    'password' => bcrypt($r['member_code']),
+
+                    'member_id'=>$r['member_id'],
+                    'batch_id' => $r['batch_id'],
+
+                    'batch_code'=>$r['batch_code'],
+                    'center_id' => $r['center_id'],
+                    'center_code'=>$r['center_code'],
+                    ]);
+            }    
             return $this->sendResponse([], "You have sucessfully save given details");
   
         }
