@@ -144,7 +144,10 @@ class AttendanceController extends Controller
     public function insertIntoAttendanceFromCMIS(Request $request){
        
         //return $this->continue_func(56);
-        return Response(['data' => json_decode($request->all())],200);
+        foreach($request->all() as $r){
+            return Response(['data' => $r],200);
+        }
+       
         return Response(['datas' => $request->all(),'status'=>1,'cur_date'=>date('Y-m-d')],200);
         try{
           $student_id = Attendance::create([
