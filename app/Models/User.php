@@ -23,7 +23,14 @@ class User extends Authenticatable
         'email',
         'mobile_no',
         'password',
-        'profile_image'
+        'profile_image',
+        'member_code',
+        'member_id',
+        'batch_id',
+        'batch_code',
+        'center_id',
+        'center_code',
+
     ];
 
     /**
