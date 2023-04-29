@@ -140,4 +140,27 @@ class AttendanceController extends Controller
             // $destinationPath = public_path('/uploads');
             // $image->move($destinationPath, $input['file']);
     }
+
+    public function insertIntoEnguruFromCMIS(Request $request){
+       
+        //return $this->continue_func(56);
+        try{
+          $student_id = Attendance::create([
+            'name' => 'Test User',
+            'username' => 'AF0123FG',
+            'email' => 'test@example.com',
+            'mobile_no'=>'9878767654',
+            'password' => bcrypt('123'),
+
+            
+            ]);
+            return $this->sendResponse([], "You have sucessfully save given details");
+  
+        }
+        catch(\Exception $e){
+          DB::rollback();
+          return $this->sendError($e->getMessage());
+        }
+  
+    }
 }
