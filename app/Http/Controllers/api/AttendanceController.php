@@ -147,8 +147,8 @@ class AttendanceController extends Controller
        // dd($request->all());
        $x=arr();
         foreach($request->all() as $r){
-            array_push($x,$r->member_code);
-            return Response(['data' => $x],200);
+            //array_push($x,$r->member_code);
+            return Response(['data' => $r],200);
         }
        
         return Response(['datas' => $request->all(),'status'=>1,'cur_date'=>date('Y-m-d')],200);
