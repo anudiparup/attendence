@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Carbon\Carbon;
 use DB;
-//use Image;
+use Image;
 class AttendanceController extends Controller
 {
     /**
