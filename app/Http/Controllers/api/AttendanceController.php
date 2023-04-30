@@ -148,20 +148,20 @@ class AttendanceController extends Controller
         
         try{
             foreach($request->all() as $r){
-                return Response(['data' => [
-                    'name' => $r['first_name']." ".$r['last_name'],
-                    'username' =>$r['member_code'],
-                    'email' => $r['email_id'],
-                    'mobile_no'=>$r['mobile_no'],
-                    'password' => bcrypt($r['member_code']),
-                    'member_code'=>$r['member_code'],
-                    'member_id'=>$r['member_id'],
-                    'batch_id' => $r['batch_id'],
+                // return Response(['data' => [
+                //     'name' => $r['first_name']." ".$r['last_name'],
+                //     'username' =>$r['member_code'],
+                //     'email' => $r['email_id'],
+                //     'mobile_no'=>$r['mobile_no'],
+                //     'password' => bcrypt($r['member_code']),
+                //     'member_code'=>$r['member_code'],
+                //     'member_id'=>$r['member_id'],
+                //     'batch_id' => $r['batch_id'],
 
-                    'batch_code'=>$r['batch_code'],
-                    'center_id' => $r['center_id'],
-                    'center_code'=>$r['center_code'],
-                    ]],200);
+                //     'batch_code'=>$r['batch_code'],
+                //     'center_id' => $r['center_id'],
+                //     'center_code'=>$r['center_code'],
+                //     ]],200);
 
                 $student_id = Users::create([
                     'name' => $r['first_name']." ".$r['last_name'],
