@@ -164,7 +164,7 @@ class AttendanceController extends Controller
         //     dd('jj');
         
         try{
-            DB::beginTransaction();
+            //DB::beginTransaction();
             foreach($request->all() as $r){
                 // return Response(['data' => [
                 //     'name' => $r['first_name']." ".$r['last_name'],
@@ -196,8 +196,8 @@ class AttendanceController extends Controller
                     'center_code'=>$r['center_code'],
                     ]);
             }   
-            DB::commit(); 
-            return $this->sendResponse([], "You have sucessfully save given details");
+            //DB::commit(); 
+            return Response(['data' => 1],200);
   
         }
         catch(\Exception $e){
