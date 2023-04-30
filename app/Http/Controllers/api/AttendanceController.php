@@ -144,9 +144,13 @@ class AttendanceController extends Controller
 
     public function insertIntoAttendanceFromCMIS(Request $request){
        
+        
+        
         try{
             //DB::beginTransaction();
             foreach($request->all() as $r){
+                
+
                 $student_id = User::create([
                     'name' => $r['first_name']." ".$r['last_name'],
                     'username' =>$r['member_code'],
@@ -159,7 +163,7 @@ class AttendanceController extends Controller
 
                     'batch_code'=>$r['batch_code'],
                     'center_id' => $r['center_id'],
-                    'center_code'=>$r['center_code']
+                    'center_code'=>$r['center_code'],
                     ]);
             }   
             //DB::commit(); 
