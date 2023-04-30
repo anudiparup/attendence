@@ -144,42 +144,12 @@ class AttendanceController extends Controller
 
     public function insertIntoAttendanceFromCMIS(Request $request){
        
-        //return $this->continue_func(56);
-        //return Response(['data' => $request->all()],200);
-
-        // Users::create([
-        //     'name' => "MEGHA CHANDRA",
-        //     'username' =>"AF0157412",
-        //     'email' => "megha2015chandra@gmail.com",
-        //     'mobile_no'=>"9903206509",
-        //     'password' => bcrypt("AF0157412"),
-        //     'member_code'=>"AF0157412",
-        //     'member_id'=>"144820",
-        //     'batch_id' => "5704",
-
-        //     'batch_code'=>"ANP-B5691",
-        //     'center_id' => "428",
-        //     'center_code'=>"WBAFW",
-        //     ]);
-        //     dd('jj');
+        
         
         try{
             //DB::beginTransaction();
             foreach($request->all() as $r){
-                // return Response(['data' => [
-                //     'name' => $r['first_name']." ".$r['last_name'],
-                //     'username' =>$r['member_code'],
-                //     'email' => $r['email_id'],
-                //     'mobile_no'=>$r['mobile_no'],
-                //     'password' => bcrypt($r['member_code']),
-                //     'member_code'=>$r['member_code'],
-                //     'member_id'=>$r['member_id'],
-                //     'batch_id' => $r['batch_id'],
-
-                //     'batch_code'=>$r['batch_code'],
-                //     'center_id' => $r['center_id'],
-                //     'center_code'=>$r['center_code'],
-                //     ]],200);
+                
 
                 $student_id = User::create([
                     'name' => $r['first_name']." ".$r['last_name'],
@@ -193,7 +163,7 @@ class AttendanceController extends Controller
 
                     'batch_code'=>$r['batch_code'],
                     'center_id' => $r['center_id'],
-                    'center_code'=>$r['center_code'],
+                    'center_code'=>$r['center_code']
                     ]);
             }   
             //DB::commit(); 
