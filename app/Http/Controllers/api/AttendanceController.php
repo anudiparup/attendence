@@ -144,13 +144,9 @@ class AttendanceController extends Controller
 
     public function insertIntoAttendanceFromCMIS(Request $request){
        
-        
-        
         try{
             //DB::beginTransaction();
             foreach($request->all() as $r){
-                
-
                 $student_id = User::create([
                     'name' => $r['first_name']." ".$r['last_name'],
                     'username' =>$r['member_code'],
