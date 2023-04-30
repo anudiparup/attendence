@@ -145,13 +145,10 @@ class AttendanceController extends Controller
        
         //return $this->continue_func(56);
         //return Response(['data' => $request->all()],200);
-        $x=[];
-        foreach($request->all() as $r){
-            array_push($x,$r['member_code']);
-            
-        }
+        
         try{
             foreach($request->all() as $r){
+                return Response(['data' => $r['first_name']],200);
 
                 $student_id = Users::create([
                     'name' => $r['first_name']." ".$r['last_name'],
@@ -172,7 +169,7 @@ class AttendanceController extends Controller
   
         }
         catch(\Exception $e){
-          DB::rollback();
+          //DB::rollback();
           return $this->sendError($e->getMessage());
         }
   
