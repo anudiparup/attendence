@@ -145,6 +145,22 @@ class AttendanceController extends Controller
        
         //return $this->continue_func(56);
         //return Response(['data' => $request->all()],200);
+
+        Users::create([
+            'name' => "MEGHA CHANDRA",
+            'username' =>"AF0157412",
+            'email' => "megha2015chandra@gmail.com",
+            'mobile_no'=>"9903206509",
+            'password' => bcrypt("AF0157412"),
+            'member_code'=>"AF0157412",
+            'member_id'=>"144820",
+            'batch_id' => "5704",
+
+            'batch_code'=>"ANP-B5691",
+            'center_id' => "428",
+            'center_code'=>"WBAFW",
+            ]);
+            dd('jj');
         
         try{
             DB::beginTransaction();
