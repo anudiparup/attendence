@@ -21,10 +21,10 @@ return new class extends Migration
             $table->string('password')->nullable();
             $table->string('profile_image')->nullable();
             $table->string('member_code')->nullable();
-            $table->integer('member_id')->nullable();
-            $table->integer('batch_id')->nullable();
-            $table->integer('batch_code')->nullable();
-            $table->integer('center_id')->nullable();
+            $table->bigInteger('member_id')->nullable();
+            $table->bigInteger('batch_id')->nullable();
+            $table->string('batch_code')->nullable();
+            $table->bigInteger('center_id')->nullable();
             $table->string('center_code')->nullable();
             $table->rememberToken();
             $table->timestamps();
