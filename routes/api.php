@@ -32,4 +32,6 @@ Route::group(['middleware' => 'auth:sanctum'],function(){
     Route::get('logout',[UserController::class,'logout']);
     Route::post('store-attendance',[AttendanceController::class,'storeAttendance']);
     Route::get('fetch-attendance/{user_id}/{cur_month}/{cur_year}',[AttendanceController::class,'fetchAttendance']);
+    Route::get('fetch-attendance-based-on-currentdate/{user_id}',[AttendanceController::class,'fetchAttendanceBasedOnCurrentDate']);
+    
 });
