@@ -82,6 +82,7 @@ class AttendanceController extends Controller
      */
     public function fetchAttendanceBasedOnCurrentDate($user_id)
     {
+        
         $details = Attendance::where('user_id',$user_id)->where('atten_date', date('Y-m-d'))
         ->get(['id as id','punch_in as punch_in','punch_out as punch_out','atten_date as date','status as status','user_id as user_id']);
         return Response(['datas' => $details,'status'=>1,'cur_date'=>date('Y-m-d')],200);

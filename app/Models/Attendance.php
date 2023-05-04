@@ -28,4 +28,9 @@ class Attendance extends Model
         // return $this->belongsTo('Model', 'foreign_key', 'owner_key'); 
         return $this->belongsTo('App\Models\User','user_id','id');
     }
+
+    public function photo()
+    {
+        return $this->hasMany('App\Models\Photo');
+    }
 }
