@@ -33,11 +33,12 @@ class AttendanceController extends Controller
     public function storeAttendance(Request $request)
     {
 
-        $image_base64=base64_decode($request->image);
-        dd($image_base64);
         $folderPath = "abc/";
-        $file = $folderPath . uniqid() . '. '."png";
-
+        $base64Image = explode(";base64,", $request->image);
+        $explodeImage = explode("image/", $base64Image[0]);
+        $imageType = $explodeImage[1];
+        $image_base64 = base64_decode($base64Image[1]);
+        $file = $folderPath . uniqid() . '. '.$imageType;
         file_put_contents($file, $image_base64);
 
         //$filename = base64_encode($filename);
