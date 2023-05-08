@@ -67,8 +67,8 @@ class AttendanceController extends Controller
             $imgFile->resize(150, 150, function ($constraint) {
                 $constraint->aspectRatio();
             })->save($folderPath.'/'.$input['file']);
-            dd($path);
-            unlink($path);
+            //dd($path);
+            unlink(public_path($file));
             //$lastId=Attendance::create($postParameter)->id;
             if(sizeof($details)>0){
                 $curlHandle = curl_init('https://cmis3api.anudip.org/api/insertFromAttenApp');
