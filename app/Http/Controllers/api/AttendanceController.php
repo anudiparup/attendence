@@ -41,7 +41,7 @@ class AttendanceController extends Controller
         $file = $folderPath . uniqid() . '.'.$imageType;
         file_put_contents($file, $image_base64);
 
-        $path = 'http://143.110.253.122/attendence/public/abc/'.$file;
+        $path = 'http://143.110.253.122/abc/'.$file;
         $filename = basename($path);
         $input['file'] = "new".time().'jpg';
         $imgFile=Image::make($path)->save(public_path('images/' . $filename));
