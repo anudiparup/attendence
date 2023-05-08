@@ -82,7 +82,7 @@ class AttendanceController extends Controller
      */
     public function fetchAttendanceBasedOnCurrentDate($user_id,$attn_date)
     {
-        if($attn_date==null){
+        if($attn_date=="null"){
             $attn_date=date('Y-m-d');
         }
         dd($attn_date);
