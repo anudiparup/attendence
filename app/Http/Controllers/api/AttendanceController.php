@@ -33,15 +33,15 @@ class AttendanceController extends Controller
     public function storeAttendance(Request $request)
     {
 
-        $file=base64_decode($request->image);
-        $filename = $file->getClientOriginalName();
-        $file_ext = $file->extension();// get file extention
-        $filename = '123'."-".'ee';
-        $destinationPath = "abc/";
+        $image_base64=base64_decode($request->image);
+        $folderPath = "abc/";
+        $file = $folderPath . uniqid() . '. '."png";
+
+        file_put_contents($file, $image_base64);
 
         //$filename = base64_encode($filename);
         //$file_get_path = $destinationPath . '/' . $filename.".".$file_ext;
-        $upload_success = $file->move($destinationPath, $filename.".".$file_ext); 
+        //$upload_success = $file->move($destinationPath, $filename.".".$file_ext); 
         dd('dd');
         
         DB::beginTransaction();
