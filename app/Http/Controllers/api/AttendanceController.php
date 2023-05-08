@@ -69,7 +69,7 @@ class AttendanceController extends Controller
             })->save($folderPath.'/'.$input['file']);
             //dd($path);
             unlink(public_path($file));
-            //$lastId=Attendance::create($postParameter)->id;
+            
             if(sizeof($details)>0){
                 $curlHandle = curl_init('https://cmis3api.anudip.org/api/insertFromAttenApp');
                 curl_setopt($curlHandle, CURLOPT_POSTFIELDS, $postParameter);
@@ -86,7 +86,7 @@ class AttendanceController extends Controller
                     return Response(['message' => 'updated successfully','status'=>1,'data'=>$x],200);
             }
 
-            
+            $lastId=Attendance::create($postParameter)->id;
         
         //file_put_contents($file, $image_base64);
             
