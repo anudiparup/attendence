@@ -9,6 +9,7 @@ use Carbon\Carbon;
 use DB;
 use Image;
 use App\Models\User;
+use App\Models\Photo;
 class AttendanceController extends Controller
 {
     /**
@@ -33,29 +34,8 @@ class AttendanceController extends Controller
     public function storeAttendance(Request $request)
     {
 
-        $folderPath = "abc/";
-        $base64Image = explode(";base64,", $request->image);
-        $explodeImage = explode("image/", $base64Image[0]);
-        $imageType = $explodeImage[1];
-        $image_base64 = base64_decode($base64Image[1]);
-        $file = $folderPath . uniqid() . '.'.$imageType;
-        file_put_contents($file, $image_base64);
-
-        $path = 'http://143.110.253.122/'.$file;
-        $filename = basename($path);
-        $input['file'] = "new".time().'.jpg';
-        $imgFile=Image::make($path)->save(public_path('abc/' . $filename));
-
-        $imgFile->resize(150, 150, function ($constraint) {
-            $constraint->aspectRatio();
-        })->save($folderPath.'/'.$input['file']);
-        // $destinationPath = public_path('/uploads');
-        // $image->move($destinationPath, $input['file']);
-
-        //$filename = base64_encode($filename);
-        //$file_get_path = $destinationPath . '/' . $filename.".".$file_ext;
-        //$upload_success = $file->move($destinationPath, $filename.".".$file_ext); 
-        dd('dd');
+        
+        
         
         DB::beginTransaction();
         try { 
@@ -71,6 +51,24 @@ class AttendanceController extends Controller
                 
                 
             $details = Attendance::where('atten_date', $request->attend_date)->get();
+            $folderPath = "abc/";
+            $base64Image = explode(";base64,", $request->image);
+            $explodeImage = explode("image/", $base64Image[0]);
+            $imageType = $explodeImage[1];
+            $image_base64 = base64_decode($base64Image[1]);
+            $file = $folderPath . uniqid() . '.'.$imageType;
+            file_put_contents($file, $image_base64);
+
+            $path = 'http://143.110.253.122/'.$file;
+            $filename = basename($path);
+            $input['file'] = "new".time().'.jpg';
+            $imgFile=Image::make($path)->save(public_path('abc/' . $filename));
+
+            $imgFile->resize(150, 150, function ($constraint) {
+                $constraint->aspectRatio();
+            })->save($folderPath.'/'.$input['file']);
+            
+            //$lastId=Attendance::create($postParameter)->id;
             if(sizeof($details)>0){
                 $curlHandle = curl_init('https://cmis3api.anudip.org/api/insertFromAttenApp');
                 curl_setopt($curlHandle, CURLOPT_POSTFIELDS, $postParameter);
@@ -79,6 +77,9 @@ class AttendanceController extends Controller
                 //dd($curlResponse);
                 curl_close($curlHandle);
                 Attendance::where('atten_date', $request->attend_date)->update(['punch_out'=>date('H:i:s'),'lat'=>$request->lat,'long'=>$request->long,'status'=>0]);
+
+                Photo::create(['user_id' => $details[0]->user_id,'attendance_id'=>$details[0]->id,'punch_type'=>'O','photo_name'=>$input['file']]);
+
                 $x=['punch_out'=>date('H:i:s'),'date' => $request->attend_date,'punch_in'=>$details[0]->punch_in];
                 DB::commit();
                     return Response(['message' => 'updated successfully','status'=>1,'data'=>$x],200);
@@ -88,7 +89,8 @@ class AttendanceController extends Controller
         
         //file_put_contents($file, $image_base64);
             
-            Attendance::create($postParameter);
+           
+            Photo::create(['user_id' => $request->user_id,'attendance_id'=>$lastId,'punch_type'=>'I','photo_name'=>$input['file']]);
             $curlHandle = curl_init('https://cmis3api.anudip.org/api/insertFromAttenApp');
             curl_setopt($curlHandle, CURLOPT_POSTFIELDS, $postParameter);
             curl_setopt($curlHandle, CURLOPT_RETURNTRANSFER, true);
@@ -158,27 +160,27 @@ class AttendanceController extends Controller
     {
         //
     }
-    public function imageUpload(Request $request){
-        // $file = $request->file('wcc_file');
+    // public function imageUpload(Request $request){
+    //     // $file = $request->file('wcc_file');
         
-        // //foreach ($files as $file) { 
+    //     // //foreach ($files as $file) { 
 
-        //   $filename = $file->getClientOriginalName();
-        //   $file_ext = $file->extension();// get file extention
-        //   $filename = $member_code."-".$doctype;
-        //   $destinationPath = "uploads/wcc";
+    //     //   $filename = $file->getClientOriginalName();
+    //     //   $file_ext = $file->extension();// get file extention
+    //     //   $filename = $member_code."-".$doctype;
+    //     //   $destinationPath = "uploads/wcc";
 
-          $image = $request->file('file');
-            $input['file'] = time().'.'.$image->getClientOriginalExtension();
+    //       $image = $request->file('file');
+    //         $input['file'] = time().'.'.$image->getClientOriginalExtension();
             
-            $destinationPath = public_path('/abc');
-            $imgFile = Image::make($image->getRealPath());
-            $imgFile->resize(150, 150, function ($constraint) {
-                $constraint->aspectRatio();
-            })->save($destinationPath.'/'.$input['file']);
-            // $destinationPath = public_path('/uploads');
-            // $image->move($destinationPath, $input['file']);
-    }
+    //         $destinationPath = public_path('/abc');
+    //         $imgFile = Image::make($image->getRealPath());
+    //         $imgFile->resize(150, 150, function ($constraint) {
+    //             $constraint->aspectRatio();
+    //         })->save($destinationPath.'/'.$input['file']);
+    //         // $destinationPath = public_path('/uploads');
+    //         // $image->move($destinationPath, $input['file']);
+    // }
 
     public function insertIntoAttendanceFromCMIS(Request $request){
        
