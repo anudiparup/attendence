@@ -67,6 +67,7 @@ class AttendanceController extends Controller
             $imgFile->resize(150, 150, function ($constraint) {
                 $constraint->aspectRatio();
             })->save($folderPath.'/'.$input['file']);
+            dd($path);
             unlink($path);
             //$lastId=Attendance::create($postParameter)->id;
             if(sizeof($details)>0){
