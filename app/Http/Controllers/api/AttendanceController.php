@@ -34,6 +34,7 @@ class AttendanceController extends Controller
     {
 
         $image_base64=base64_decode($request->image);
+        dd($image_base64);
         $folderPath = "abc/";
         $file = $folderPath . uniqid() . '. '."png";
 
@@ -145,27 +146,27 @@ class AttendanceController extends Controller
     {
         //
     }
-    // public function imageUpload(Request $request){
-    //     // $file = $request->file('wcc_file');
+    public function imageUpload(Request $request){
+        // $file = $request->file('wcc_file');
         
-    //     // //foreach ($files as $file) { 
+        // //foreach ($files as $file) { 
 
-    //     //   $filename = $file->getClientOriginalName();
-    //     //   $file_ext = $file->extension();// get file extention
-    //     //   $filename = $member_code."-".$doctype;
-    //     //   $destinationPath = "uploads/wcc";
+        //   $filename = $file->getClientOriginalName();
+        //   $file_ext = $file->extension();// get file extention
+        //   $filename = $member_code."-".$doctype;
+        //   $destinationPath = "uploads/wcc";
 
-    //       $image = $request->file('file');
-    //         $input['file'] = time().'.'.$image->getClientOriginalExtension();
+          $image = $request->file('file');
+            $input['file'] = time().'.'.$image->getClientOriginalExtension();
             
-    //         $destinationPath = public_path('/abc');
-    //         $imgFile = Image::make($image->getRealPath());
-    //         $imgFile->resize(150, 150, function ($constraint) {
-    //             $constraint->aspectRatio();
-    //         })->save($destinationPath.'/'.$input['file']);
-    //         // $destinationPath = public_path('/uploads');
-    //         // $image->move($destinationPath, $input['file']);
-    // }
+            $destinationPath = public_path('/abc');
+            $imgFile = Image::make($image->getRealPath());
+            $imgFile->resize(150, 150, function ($constraint) {
+                $constraint->aspectRatio();
+            })->save($destinationPath.'/'.$input['file']);
+            // $destinationPath = public_path('/uploads');
+            // $image->move($destinationPath, $input['file']);
+    }
 
     public function insertIntoAttendanceFromCMIS(Request $request){
        
