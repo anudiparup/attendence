@@ -41,6 +41,17 @@ class AttendanceController extends Controller
         $file = $folderPath . uniqid() . '.'.$imageType;
         file_put_contents($file, $image_base64);
 
+        $path = 'https://i.stack.imgur.com/koFpQ.png';
+        $filename = basename($path);
+        $input['file'] = time().'jpg';
+        $imgFile=Image::make($path)->save(public_path('images/' . $filename));
+
+        $imgFile->resize(150, 150, function ($constraint) {
+            $constraint->aspectRatio();
+        })->save($folderPath.'/'.$input['file']);
+        // $destinationPath = public_path('/uploads');
+        // $image->move($destinationPath, $input['file']);
+
         //$filename = base64_encode($filename);
         //$file_get_path = $destinationPath . '/' . $filename.".".$file_ext;
         //$upload_success = $file->move($destinationPath, $filename.".".$file_ext); 
