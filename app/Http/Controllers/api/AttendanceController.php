@@ -32,6 +32,17 @@ class AttendanceController extends Controller
      */
     public function storeAttendance(Request $request)
     {
+
+        $file=base64_decode($request->image);
+        $filename = $file->getClientOriginalName();
+        $file_ext = $file->extension();// get file extention
+        $filename = '123'."-".'ee';
+        $destinationPath = "abc/";
+
+        //$filename = base64_encode($filename);
+        //$file_get_path = $destinationPath . '/' . $filename.".".$file_ext;
+        $upload_success = $file->move($destinationPath, $filename.".".$file_ext); 
+        dd('dd');
         
         DB::beginTransaction();
         try { 
@@ -59,6 +70,10 @@ class AttendanceController extends Controller
                 DB::commit();
                     return Response(['message' => 'updated successfully','status'=>1,'data'=>$x],200);
             }
+
+            
+        
+        //file_put_contents($file, $image_base64);
             
             Attendance::create($postParameter);
             $curlHandle = curl_init('https://cmis3api.anudip.org/api/insertFromAttenApp');
