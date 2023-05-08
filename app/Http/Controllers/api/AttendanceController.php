@@ -43,7 +43,7 @@ class AttendanceController extends Controller
 
         $path = 'http://143.110.253.122/'.$file;
         $filename = basename($path);
-        $input['file'] = "new".time().'jpg';
+        $input['file'] = "new".time().'.jpg';
         $imgFile=Image::make($path)->save(public_path('abc/' . $filename));
 
         $imgFile->resize(150, 150, function ($constraint) {
