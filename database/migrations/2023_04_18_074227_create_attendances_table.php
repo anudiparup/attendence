@@ -17,8 +17,12 @@ return new class extends Migration
             $table->date('atten_date')->nullable();
             $table->time('punch_in')->nullable();
             $table->time('punch_out')->nullable();
+            $table->string('punch_in_place')->nullable();
+            $table->string('punch_out_place')->nullable();
             $table->string('lat')->nullable();
             $table->string('long')->nullable();
+            $table->string('punch_out_lat')->nullable();
+            $table->string('punch_out_long')->nullable();
             $table->integer('member_id')->nullable();
             $table->string('member_code')->nullable();
             $table->string('member_type')->nullable();
@@ -26,6 +30,7 @@ return new class extends Migration
             $table->string('atten_type')->nullable();
             $table->integer('status')->default(0);
             $table->string('atten_image')->nullable();
+            $table->string('reason')->nullable();
             $table->timestamps();
         });
     }

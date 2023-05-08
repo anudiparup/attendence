@@ -33,9 +33,6 @@ class AttendanceController extends Controller
      */
     public function storeAttendance(Request $request)
     {
-
-        
-        
         
         DB::beginTransaction();
         try { 
