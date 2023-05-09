@@ -34,7 +34,7 @@ class AttendanceController extends Controller
     public function storeAttendance(Request $request)
     {
         
-        DB::beginTransaction();
+       // DB::beginTransaction();
         try { 
             date_default_timezone_set('Asia/Calcutta');
                 if(str_starts_with($request->member_code, 'AF')){
@@ -88,15 +88,21 @@ class AttendanceController extends Controller
                     return Response(['message' => 'updated successfully','status'=>1,'data'=>$x],200);
             }
             //code for update end
-            $lastId=Attendance::create($postParameter)->id;
-            Photo::create(['user_id' => $request->user_id,'attendance_id'=>$lastId,'punch_type'=>'I','photo_name'=>$input['file'],'lat'=>$request->lat,'long'=>$request->long,'place'=>$request->location]);
+            
             $curlHandle = curl_init('https://cmis3api.anudip.org/api/insertFromAttenApp');
             curl_setopt($curlHandle, CURLOPT_POSTFIELDS, $postParameter);
             curl_setopt($curlHandle, CURLOPT_RETURNTRANSFER, true);
             $curlResponse = curl_exec($curlHandle);
+            dd($curlResponse);
             curl_close($curlHandle);
+            // if(){
+                 
+            // }
+            $lastId=Attendance::create($postParameter)->id;
+            Photo::create(['user_id' => $request->user_id,'attendance_id'=>$lastId,'punch_type'=>'I','photo_name'=>$input['file'],'lat'=>$request->lat,'long'=>$request->long,'place'=>$request->location]);
+
             $x=['punch_in'=>$time,'date' => $request->attend_date];
-            //DB::commit();
+            DB::commit();
             return Response(['message' => 'inserted successfully','status'=>1,'data'=>$x],200);
 
         } catch (Exception $e) { 
