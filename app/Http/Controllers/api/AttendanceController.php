@@ -96,7 +96,7 @@ class AttendanceController extends Controller
             $curlResponse = curl_exec($curlHandle);
             curl_close($curlHandle);
             $x=['punch_in'=>$time,'date' => $request->attend_date];
-            DB::commit();
+            //DB::commit();
             return Response(['message' => 'inserted successfully','status'=>1,'data'=>$x],200);
 
         } catch (Exception $e) { 
