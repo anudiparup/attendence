@@ -17,6 +17,9 @@ return new class extends Migration
             $table->integer('user_id');
             $table->string('punch_type')->nullable();
             $table->string('photo_name')->nullable();
+            $table->string('lat')->nullable();
+            $table->string('long')->nullable();
+            $table->string('place')->nullable();
             $table->timestamps();
         });
     }

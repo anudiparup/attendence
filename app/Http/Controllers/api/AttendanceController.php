@@ -43,7 +43,7 @@ class AttendanceController extends Controller
                 $member_type='staff';
                 }
                 $attn_type=$request->attend_date==date('Y-m-d')?'present':'past';
-                $postParameter = ['user_id' => $request->user_id,'atten_date' => $request->attend_date,'punch_in'=>date('H:i:s'),'lat'=>$request->lat,'long'=>$request->long,'member_id'=>$request->member_id,'member_code'=>$request->member_code,'status'=>2,'transfer_status'=>1,'atten_type'=>$attn_type,'member_type'=>$member_type];
+                $postParameter = ['user_id' => $request->user_id,'atten_date' => $request->attend_date,'punch_in'=>date('H:i:s'),'lat'=>$request->lat,'long'=>$request->long,'member_id'=>$request->member_id,'member_code'=>$request->member_code,'status'=>2,'transfer_status'=>1,'atten_type'=>$attn_type,'member_type'=>$member_type,'punch_in_place'=>$request->location,'reason'=>$request->reason];
 
                 
                 
@@ -74,9 +74,9 @@ class AttendanceController extends Controller
                 $curlResponse = curl_exec($curlHandle);
                 //dd($curlResponse);
                 curl_close($curlHandle);
-                Attendance::where('atten_date', $request->attend_date)->update(['punch_out'=>date('H:i:s'),'lat'=>$request->lat,'long'=>$request->long,'status'=>0]);
+                Attendance::where('atten_date', $request->attend_date)->update(['punch_out'=>date('H:i:s'),'punch_out_lat'=>$request->lat,'punch_out_long'=>$request->long,'status'=>0,'punch_out_place'=>$request->location]);
 
-                Photo::create(['user_id' => $details[0]->user_id,'attendance_id'=>$details[0]->id,'punch_type'=>'O','photo_name'=>$input['file']]);
+                Photo::create(['user_id' => $details[0]->user_id,'attendance_id'=>$details[0]->id,'punch_type'=>'O','photo_name'=>$input['file'],'lat'=>$request->lat,'long'=>$request->long,'place'=>$request->location]);
 
                 $x=['punch_out'=>date('H:i:s'),'date' => $request->attend_date,'punch_in'=>$details[0]->punch_in];
                 DB::commit();
@@ -88,7 +88,7 @@ class AttendanceController extends Controller
         //file_put_contents($file, $image_base64);
             
            
-            Photo::create(['user_id' => $request->user_id,'attendance_id'=>$lastId,'punch_type'=>'I','photo_name'=>$input['file']]);
+            Photo::create(['user_id' => $request->user_id,'attendance_id'=>$lastId,'punch_type'=>'I','photo_name'=>$input['file'],'lat'=>$request->lat,'long'=>$request->long,'place'=>$request->location]);
             $curlHandle = curl_init('https://cmis3api.anudip.org/api/insertFromAttenApp');
             curl_setopt($curlHandle, CURLOPT_POSTFIELDS, $postParameter);
             curl_setopt($curlHandle, CURLOPT_RETURNTRANSFER, true);

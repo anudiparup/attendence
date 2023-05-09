@@ -14,6 +14,9 @@ class Photo extends Model
         'user_id',
         'punch_type',
         'photo_name',
+        'lat',
+        'long',
+        'place',
     ];
 
     public function attendance()

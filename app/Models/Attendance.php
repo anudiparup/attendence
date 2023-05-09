@@ -21,7 +21,12 @@ class Attendance extends Model
         'transfer_status',
         'atten_type',
         'status',
-        'atten_image'
+        'atten_image',
+        'punch_in_place',
+        'punch_out_place',
+        'punch_out_lat',
+        'punch_out_long',
+        'reason',
     ];
     public function user()
     {
