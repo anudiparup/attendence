@@ -101,7 +101,7 @@ class AttendanceController extends Controller
             if(curl_errno($curl)) {
                 $postParameter['transfer_status']=0;
             }
-            dd($postParameter);
+            //dd($postParameter);
             $lastId=Attendance::create($postParameter)->id;
             Photo::create(['user_id' => $request->user_id,'attendance_id'=>$lastId,'punch_type'=>'I','photo_name'=>$input['file'],'lat'=>$request->lat,'long'=>$request->long,'place'=>$request->location]);
 
