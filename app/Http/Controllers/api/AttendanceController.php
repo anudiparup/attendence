@@ -42,8 +42,13 @@ class AttendanceController extends Controller
                 }else{
                 $member_type='staff';
                 }
+                if($request->attend_date<date('Y-m-d')){
+                    $time=$request->punch_in;
+                }else{
+                    $time=date('H:i:s');
+                }
                 $attn_type=$request->attend_date==date('Y-m-d')?'present':'past';
-                $postParameter = ['user_id' => $request->user_id,'atten_date' => $request->attend_date,'punch_in'=>date('H:i:s'),'lat'=>$request->lat,'long'=>$request->long,'member_id'=>$request->member_id,'member_code'=>$request->member_code,'status'=>2,'transfer_status'=>1,'atten_type'=>$attn_type,'member_type'=>$member_type,'punch_in_place'=>$request->location,'reason'=>$request->reason];
+                $postParameter = ['user_id' => $request->user_id,'atten_date' => $request->attend_date,'punch_in'=>$time,'lat'=>$request->lat,'long'=>$request->long,'member_id'=>$request->member_id,'member_code'=>$request->member_code,'status'=>2,'transfer_status'=>1,'atten_type'=>$attn_type,'member_type'=>$member_type,'punch_in_place'=>$request->location,'reason'=>$request->reason];
 
                 
                 
@@ -74,11 +79,11 @@ class AttendanceController extends Controller
                 $curlResponse = curl_exec($curlHandle);
                 //dd($curlResponse);
                 curl_close($curlHandle);
-                Attendance::where('atten_date', $request->attend_date)->update(['punch_out'=>date('H:i:s'),'punch_out_lat'=>$request->lat,'punch_out_long'=>$request->long,'status'=>0,'punch_out_place'=>$request->location]);
+                Attendance::where('atten_date', $request->attend_date)->update(['punch_out'=>$time,'punch_out_lat'=>$request->lat,'punch_out_long'=>$request->long,'status'=>0,'punch_out_place'=>$request->location]);
 
                 Photo::create(['user_id' => $details[0]->user_id,'attendance_id'=>$details[0]->id,'punch_type'=>'O','photo_name'=>$input['file'],'lat'=>$request->lat,'long'=>$request->long,'place'=>$request->location]);
 
-                $x=['punch_out'=>date('H:i:s'),'date' => $request->attend_date,'punch_in'=>$details[0]->punch_in];
+                $x=['punch_out'=>$time,'date' => $request->attend_date,'punch_in'=>$details[0]->punch_in];
                 DB::commit();
                     return Response(['message' => 'updated successfully','status'=>1,'data'=>$x],200);
             }
@@ -95,7 +100,7 @@ class AttendanceController extends Controller
             $curlResponse = curl_exec($curlHandle);
             //dd($curlResponse);
             curl_close($curlHandle);
-            $x=['punch_in'=>date('H:i:s'),'date' => $request->attend_date];
+            $x=['punch_in'=>$time,'date' => $request->attend_date];
             DB::commit();
             return Response(['message' => 'inserted successfully','status'=>1,'data'=>$x],200);
 
