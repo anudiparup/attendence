@@ -43,7 +43,7 @@ class AttendanceController extends Controller
                 $member_type='staff';
                 }
                 if($request->attend_date<date('Y-m-d')){
-                    $time=$request->punch_in;
+                    $time=$request->punch_time=='undefined'?date('H:i:s'):$request->punch_time;
                     $attn_type='past';
                 }else{
                     $time=date('H:i:s');
@@ -79,7 +79,7 @@ class AttendanceController extends Controller
                 $curlResponse = curl_exec($curlHandle);
                 //dd($curlResponse);
                 curl_close($curlHandle);
-                Attendance::where('atten_date', $request->attend_date)->update(['punch_out'=>$time,'punch_out_lat'=>$request->lat,'punch_out_long'=>$request->long,'status'=>0,'punch_out_place'=>$request->location]);
+                Attendance::where('atten_date', $request->attend_date)->update(['punch_out'=>$timeout,'punch_out_lat'=>$request->lat,'punch_out_long'=>$request->long,'status'=>0,'punch_out_place'=>$request->location]);
 
                 Photo::create(['user_id' => $details[0]->user_id,'attendance_id'=>$details[0]->id,'punch_type'=>'O','photo_name'=>$input['file'],'lat'=>$request->lat,'long'=>$request->long,'place'=>$request->location]);
 
