@@ -94,13 +94,13 @@ class AttendanceController extends Controller
             curl_setopt($curlHandle, CURLOPT_RETURNTRANSFER, true);
             $curlResponse = curl_exec($curlHandle);
             
-            // if(){
+            // // if(){
                  
+            // // }
+            // if(curl_errno($curl)) {
+            //     $postParameter['transfer_status']=0;
             // }
-            if(curl_errno($curl)) {
-                $postParameter['transfer_status']=0;
-            }
-            //dd($postParameter);
+            // //dd($postParameter);
             $lastId=Attendance::create($postParameter)->id;
             Photo::create(['user_id' => $request->user_id,'attendance_id'=>$lastId,'punch_type'=>'I','photo_name'=>$input['file'],'lat'=>$request->lat,'long'=>$request->long,'place'=>$request->location]);
             curl_close($curlHandle);
