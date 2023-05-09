@@ -93,8 +93,7 @@ class AttendanceController extends Controller
             curl_setopt($curlHandle, CURLOPT_POSTFIELDS, $postParameter);
             curl_setopt($curlHandle, CURLOPT_RETURNTRANSFER, true);
             $curlResponse = curl_exec($curlHandle);
-            //dd(json_decode($curlResponse));
-            curl_close($curlHandle);
+            
             // if(){
                  
             // }
@@ -104,7 +103,7 @@ class AttendanceController extends Controller
             //dd($postParameter);
             $lastId=Attendance::create($postParameter)->id;
             Photo::create(['user_id' => $request->user_id,'attendance_id'=>$lastId,'punch_type'=>'I','photo_name'=>$input['file'],'lat'=>$request->lat,'long'=>$request->long,'place'=>$request->location]);
-
+            curl_close($curlHandle);
             $x=['punch_in'=>$time,'date' => $request->attend_date];
             DB::commit();
             return Response(['message' => 'inserted successfully','status'=>1,'data'=>$x],200);
