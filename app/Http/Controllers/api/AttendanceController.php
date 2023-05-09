@@ -44,10 +44,11 @@ class AttendanceController extends Controller
                 }
                 if($request->attend_date<date('Y-m-d')){
                     $time=$request->punch_in;
+                    $attn_type='past';
                 }else{
                     $time=date('H:i:s');
+                    $attn_type='present';
                 }
-                $attn_type=$request->attend_date==date('Y-m-d')?'present':'past';
                 $postParameter = ['user_id' => $request->user_id,'atten_date' => $request->attend_date,'punch_in'=>$time,'lat'=>$request->lat,'long'=>$request->long,'member_id'=>$request->member_id,'member_code'=>$request->member_code,'status'=>2,'transfer_status'=>1,'atten_type'=>$attn_type,'member_type'=>$member_type,'punch_in_place'=>$request->location,'reason'=>$request->reason];
 
                 
@@ -69,9 +70,8 @@ class AttendanceController extends Controller
             $imgFile->resize(300, 300, function ($constraint) {
                 $constraint->aspectRatio();
             })->save($folderPath.'/'.$input['file']);
-            //dd($path);
             unlink(public_path($file));
-            
+            //code for update start
             if(sizeof($details)>0){
                 $curlHandle = curl_init('https://cmis3api.anudip.org/api/insertFromAttenApp');
                 curl_setopt($curlHandle, CURLOPT_POSTFIELDS, $postParameter);
@@ -87,18 +87,13 @@ class AttendanceController extends Controller
                 DB::commit();
                     return Response(['message' => 'updated successfully','status'=>1,'data'=>$x],200);
             }
-
+            //code for update end
             $lastId=Attendance::create($postParameter)->id;
-        
-        //file_put_contents($file, $image_base64);
-            
-           
             Photo::create(['user_id' => $request->user_id,'attendance_id'=>$lastId,'punch_type'=>'I','photo_name'=>$input['file'],'lat'=>$request->lat,'long'=>$request->long,'place'=>$request->location]);
             $curlHandle = curl_init('https://cmis3api.anudip.org/api/insertFromAttenApp');
             curl_setopt($curlHandle, CURLOPT_POSTFIELDS, $postParameter);
             curl_setopt($curlHandle, CURLOPT_RETURNTRANSFER, true);
             $curlResponse = curl_exec($curlHandle);
-            //dd($curlResponse);
             curl_close($curlHandle);
             $x=['punch_in'=>$time,'date' => $request->attend_date];
             DB::commit();
