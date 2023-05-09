@@ -49,7 +49,7 @@ class AttendanceController extends Controller
                     $time=date('H:i:s');
                     $attn_type='present';
                 }
-                $postParameter = ['user_id' => $request->user_id,'atten_date' => $request->attend_date,'punch_in'=>$time,'lat'=>$request->lat,'long'=>$request->long,'member_id'=>$request->member_id,'member_code'=>$request->member_code,'status'=>2,'transfer_status'=>1,'atten_type'=>$attn_type,'member_type'=>$member_type,'punch_in_place'=>$request->location,'reason'=>$request->reason];
+                $postParameter = ['user_id' => $request->user_id,'atten_date' => $request->attend_date,'punch_in'=>$time,'lat'=>$request->lat,'long'=>$request->long,'member_id'=>$request->member_id,'member_code'=>$request->member_code,'status'=>2,'transfer_status'=>1,'atten_type'=>$attn_type,'member_type'=>$member_type,'punch_in_place'=>$request->location,'reason'=>$request->reason,'center_id'=>$request->center_id];
 
                 
                 
