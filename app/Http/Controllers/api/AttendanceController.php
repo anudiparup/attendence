@@ -93,7 +93,7 @@ class AttendanceController extends Controller
             curl_setopt($curlHandle, CURLOPT_POSTFIELDS, $postParameter);
             curl_setopt($curlHandle, CURLOPT_RETURNTRANSFER, true);
             $curlResponse = curl_exec($curlHandle);
-            dd($curlResponse);
+            dd(json_decode($curlResponse));
             curl_close($curlHandle);
             // if(){
                  
