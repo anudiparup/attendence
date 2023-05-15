@@ -53,7 +53,7 @@ class AttendanceController extends Controller
 
                 
                 
-            $details = Attendance::where('atten_date', $request->attend_date)->where('user_id', $details[0]->user_id)->get();
+            $details = Attendance::where('atten_date', $request->attend_date)->where('user_id', $request->user_id)->get();
             $folderPath = "studentphoto/".trim($request->member_code)."/";
             $base64Image = explode(";base64,", $request->image);
             $explodeImage = explode("image/", $base64Image[0]);
