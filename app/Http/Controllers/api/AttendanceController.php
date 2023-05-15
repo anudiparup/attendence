@@ -76,7 +76,7 @@ class AttendanceController extends Controller
             // })->save($folderPath.'/'.$input['file']);
             // unlink(public_path($file));
             if(sizeof($details)>0){
-                dd($details[0]->id);
+                //dd($details[0]->id);
                 $curlHandle = curl_init('https://cmis3api.anudip.org/api/insertFromAttenApp');
                 curl_setopt($curlHandle, CURLOPT_POSTFIELDS, $postParameter);
                 curl_setopt($curlHandle, CURLOPT_RETURNTRANSFER, true);
