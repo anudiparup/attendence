@@ -60,18 +60,19 @@ class AttendanceController extends Controller
             $imageType = $explodeImage[1];
             $image_base64 = base64_decode($base64Image[1]);
             $file = $folderPath . uniqid() . '.'.$imageType;
-            mkdir("studentphoto/".$request->member_code."/");
+            mkdir($folderPath);
             file_put_contents($file, $image_base64);
-             dd('end');
+             //dd('end');
             $path = 'http://143.110.253.122/'.$file;//need some changes
             $filename = basename($path);
             $input['file'] = "new".time().'.jpg';
-            $imgFile=Image::make($path)->save(public_path('studentphoto/' . $filename));
+            $imgFile=Image::make($path)->save(public_path($folderPath.$filename));
 
             $imgFile->resize(300, 300, function ($constraint) {
                 $constraint->aspectRatio();
             })->save($folderPath.'/'.$input['file']);
             unlink(public_path($file));
+            dd('dd');
             //code for update start
             if(sizeof($details)>0){
                 $curlHandle = curl_init('https://cmis3api.anudip.org/api/insertFromAttenApp');
