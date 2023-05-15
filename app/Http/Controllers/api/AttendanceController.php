@@ -54,39 +54,39 @@ class AttendanceController extends Controller
                 
                 
             $details = Attendance::where('atten_date', $request->attend_date)->get();
-            // $folderPath = "studentphoto/".trim($request->member_code)."/";
-            // $base64Image = explode(";base64,", $request->image);
-            // $explodeImage = explode("image/", $base64Image[0]);
-            // $imageType = $explodeImage[1];
-            // $image_base64 = base64_decode($base64Image[1]);
-            // $file = $folderPath . uniqid() . '.'.$imageType;
-            // if (!file_exists($folderPath)){
-            //   mkdir($folderPath);
-            // }
-            // file_put_contents($file, $image_base64);
-            //  //dd('end');
-            // $path = 'http://143.110.253.122/'.$file;//need some changes
-            // $filename = basename($path);
-            // $input['file'] = trim($request->member_code)."_".$request->attend_date."_".time().'.jpg';
-            // $imgFile=Image::make($path)->save(public_path($folderPath.$filename));
+            $folderPath = "studentphoto/".trim($request->member_code)."/";
+            $base64Image = explode(";base64,", $request->image);
+            $explodeImage = explode("image/", $base64Image[0]);
+            $imageType = $explodeImage[1];
+            $image_base64 = base64_decode($base64Image[1]);
+            $file = $folderPath . uniqid() . '.'.$imageType;
+            if (!file_exists($folderPath)){
+              mkdir($folderPath);
+            }
+            file_put_contents($file, $image_base64);
+             //dd('end');
+            $path = 'http://143.110.253.122/'.$file;//need some changes
+            $filename = basename($path);
+            $input['file'] = trim($request->member_code)."_".$request->attend_date."_".time().'.jpg';
+            $imgFile=Image::make($path)->save(public_path($folderPath.$filename));
 
-            // $imgFile->resize(300, 300, function ($constraint) {
-            //     $constraint->aspectRatio();
-            // })->save($folderPath.'/'.$input['file']);
-            // unlink(public_path($file));
+            $imgFile->resize(300, 300, function ($constraint) {
+                $constraint->aspectRatio();
+            })->save($folderPath.'/'.$input['file']);
+            unlink(public_path($file));
             //dd('dd');
             //code for update start
             if(sizeof($details)>0){
-                //dd($postParameter);
+            
                 $curlHandle = curl_init('https://cmis3api.anudip.org/api/insertFromAttenApp');
                 curl_setopt($curlHandle, CURLOPT_POSTFIELDS, $postParameter);
                 curl_setopt($curlHandle, CURLOPT_RETURNTRANSFER, true);
                 $curlResponse = curl_exec($curlHandle);
-                dd($curlResponse);
+                //dd($curlResponse);
                 curl_close($curlHandle);
                 Attendance::where('atten_date', $request->attend_date)->where('user_id', $details[0]->user_id)->update(['punch_out'=>$time,'punch_out_lat'=>$request->lat,'punch_out_long'=>$request->long,'status'=>0,'punch_out_place'=>$request->location]);
 
-                // Photo::create(['user_id' => $details[0]->user_id,'attendance_id'=>$details[0]->id,'punch_type'=>'O','photo_name'=>$input['file'],'lat'=>$request->lat,'long'=>$request->long,'place'=>$request->location]);
+                Photo::create(['user_id' => $details[0]->user_id,'attendance_id'=>$details[0]->id,'punch_type'=>'O','photo_name'=>$input['file'],'lat'=>$request->lat,'long'=>$request->long,'place'=>$request->location]);
 
                 $x=['punch_out'=>$time,'date' => $request->attend_date,'punch_in'=>$details[0]->punch_in];
                 DB::commit();
@@ -98,7 +98,7 @@ class AttendanceController extends Controller
             curl_setopt($curlHandle, CURLOPT_POSTFIELDS, $postParameter);
             curl_setopt($curlHandle, CURLOPT_RETURNTRANSFER, true);
             $curlResponse = curl_exec($curlHandle);
-            curl_close($curlHandle);
+            
             // // if(){
                  
             // // }
