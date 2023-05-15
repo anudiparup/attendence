@@ -82,7 +82,7 @@ class AttendanceController extends Controller
                 curl_setopt($curlHandle, CURLOPT_POSTFIELDS, $postParameter);
                 curl_setopt($curlHandle, CURLOPT_RETURNTRANSFER, true);
                 $curlResponse = curl_exec($curlHandle);
-                //dd($curlResponse);
+                dd($curlResponse);
                 curl_close($curlHandle);
                 Attendance::where('atten_date', $request->attend_date)->where('user_id', $details[0]->user_id)->update(['punch_out'=>$time,'punch_out_lat'=>$request->lat,'punch_out_long'=>$request->long,'status'=>0,'punch_out_place'=>$request->location]);
 
