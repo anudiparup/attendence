@@ -77,7 +77,7 @@ class AttendanceController extends Controller
             //dd('dd');
             //code for update start
             if(sizeof($details)>0){
-                dd($postParameter);
+                //dd($postParameter);
                 $curlHandle = curl_init('https://cmis3api.anudip.org/api/insertFromAttenApp');
                 curl_setopt($curlHandle, CURLOPT_POSTFIELDS, $postParameter);
                 curl_setopt($curlHandle, CURLOPT_RETURNTRANSFER, true);
@@ -98,7 +98,7 @@ class AttendanceController extends Controller
             curl_setopt($curlHandle, CURLOPT_POSTFIELDS, $postParameter);
             curl_setopt($curlHandle, CURLOPT_RETURNTRANSFER, true);
             $curlResponse = curl_exec($curlHandle);
-            
+            curl_close($curlHandle);
             // // if(){
                  
             // // }
