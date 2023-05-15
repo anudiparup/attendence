@@ -54,7 +54,7 @@ class AttendanceController extends Controller
                 
                 
             $details = Attendance::where('atten_date', $request->attend_date)->where('user_id', $request->user_id)->get();
-            dd($details);
+            
             $folderPath = "studentphoto/".trim($request->member_code)."/";
             $base64Image = explode(";base64,", $request->image);
             $explodeImage = explode("image/", $base64Image[0]);
@@ -76,7 +76,7 @@ class AttendanceController extends Controller
             })->save($folderPath.'/'.$input['file']);
             unlink(public_path($file));
             if(sizeof($details)>0){
-            
+                dd($details[0]->id);
                 $curlHandle = curl_init('https://cmis3api.anudip.org/api/insertFromAttenApp');
                 curl_setopt($curlHandle, CURLOPT_POSTFIELDS, $postParameter);
                 curl_setopt($curlHandle, CURLOPT_RETURNTRANSFER, true);
