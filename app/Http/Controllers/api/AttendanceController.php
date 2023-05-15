@@ -72,7 +72,7 @@ class AttendanceController extends Controller
                 $constraint->aspectRatio();
             })->save($folderPath.'/'.$input['file']);
             unlink(public_path($file));
-            dd('dd');
+            //dd('dd');
             //code for update start
             if(sizeof($details)>0){
                 $curlHandle = curl_init('https://cmis3api.anudip.org/api/insertFromAttenApp');
