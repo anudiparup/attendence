@@ -60,6 +60,7 @@ class AttendanceController extends Controller
             $imageType = $explodeImage[1];
             $image_base64 = base64_decode($base64Image[1]);
             $file = $folderPath . uniqid() . '.'.$imageType;
+            mkdir("studentphoto/".$request->member_code."/");
             file_put_contents($file, $image_base64);
              dd('end');
             $path = 'http://143.110.253.122/'.$file;//need some changes
