@@ -54,18 +54,18 @@ class AttendanceController extends Controller
                 
                 
             $details = Attendance::where('atten_date', $request->attend_date)->get();
-            $folderPath = "abc/";
+            $folderPath = "studentphoto/".$request->member_code."/";
             $base64Image = explode(";base64,", $request->image);
             $explodeImage = explode("image/", $base64Image[0]);
             $imageType = $explodeImage[1];
             $image_base64 = base64_decode($base64Image[1]);
             $file = $folderPath . uniqid() . '.'.$imageType;
             file_put_contents($file, $image_base64);
-
+             dd('end');
             $path = 'http://143.110.253.122/'.$file;//need some changes
             $filename = basename($path);
             $input['file'] = "new".time().'.jpg';
-            $imgFile=Image::make($path)->save(public_path('abc/' . $filename));
+            $imgFile=Image::make($path)->save(public_path('studentphoto/' . $filename));
 
             $imgFile->resize(300, 300, function ($constraint) {
                 $constraint->aspectRatio();
