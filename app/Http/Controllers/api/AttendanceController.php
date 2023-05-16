@@ -232,7 +232,7 @@ class AttendanceController extends Controller
             foreach($request->all() as $r){
                 
 
-                dd($r);
+                //dd($r);
                 return $this->sendResponse(['message' => $r,'status'=>1,'data'=>$x],200);
             }   
             //DB::commit(); 
