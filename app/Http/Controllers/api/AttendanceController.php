@@ -231,7 +231,7 @@ class AttendanceController extends Controller
             //
             //DB::beginTransaction();
             foreach($request->all() as $r){
-                return Response(['message' => $r,'status'=>1],200);
+                return Response(['message' => $r->member_id,'status'=>1],200);
 
                 //dd($r);
                 //return $this->sendResponse(['message' => $r,'status'=>1,'data'=>$x],200);
