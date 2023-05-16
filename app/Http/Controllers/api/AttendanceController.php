@@ -231,10 +231,7 @@ class AttendanceController extends Controller
             //
             //DB::beginTransaction();
             foreach($request->all() as $r){
-                return Response(['message' => $r['member_id'],'status'=>1],200);
-
-                //dd($r);
-                //return $this->sendResponse(['message' => $r,'status'=>1,'data'=>$x],200);
+                Attendance::where('atten_date', $r['atten_date'])->where('member_id', $r['member_id'])->update(['status'=>$r['status']]);
             }   
             //DB::commit(); 
             return Response(['data' => 1],200);
