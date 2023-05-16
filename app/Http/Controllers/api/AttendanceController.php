@@ -228,7 +228,7 @@ class AttendanceController extends Controller
 
     public function UpdateAttendance(Request $request){
         try{
-            return $this->sendResponse(['message' => $request->all(),'status'=>1,'data'=>$x],200);
+            return $this->sendResponse(['message' => $request->all(),'status'=>1],200);
             //DB::beginTransaction();
             foreach($request->all() as $r){
                 
