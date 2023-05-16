@@ -50,9 +50,6 @@ class AttendanceController extends Controller
                     $attn_type='present';
                 }
                 
-
-                
-                
             $details = Attendance::where('atten_date', $request->attend_date)->where('user_id', $request->user_id)->get();
             
             $folderPath = "studentphoto/".trim($request->member_code)."/";
@@ -217,6 +214,25 @@ class AttendanceController extends Controller
                     'center_id' => $r['center_id'],
                     'center_code'=>$r['center_code'],
                     ]);
+            }   
+            //DB::commit(); 
+            return Response(['data' => 1],200);
+  
+        }
+        catch(\Exception $e){
+          DB::rollback();
+          return $this->sendError($e->getMessage());
+        }
+  
+    }
+
+    public function UpdateAttendance(Request $request){
+        try{
+            //DB::beginTransaction();
+            foreach($request->all() as $r){
+                
+
+                dd($r);
             }   
             //DB::commit(); 
             return Response(['data' => 1],200);
