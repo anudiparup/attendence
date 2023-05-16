@@ -233,6 +233,7 @@ class AttendanceController extends Controller
                 
 
                 dd($r);
+                return $this->sendResponse(['message' => $r,'status'=>1,'data'=>$x],200);
             }   
             //DB::commit(); 
             return Response(['data' => 1],200);
