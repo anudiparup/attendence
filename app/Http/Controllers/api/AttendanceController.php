@@ -51,27 +51,31 @@ class AttendanceController extends Controller
                 }
                 
             $details = Attendance::where('atten_date', $request->attend_date)->where('user_id', $request->user_id)->get();
-            
-            $folderPath = "studentphoto/".trim($request->member_code)."/";
-            $base64Image = explode(";base64,", $request->image);
-            $explodeImage = explode("image/", $base64Image[0]);
-            $imageType = $explodeImage[1];
-            $image_base64 = base64_decode($base64Image[1]);
-            $file = $folderPath . uniqid() . '.'.$imageType;
-            if (!file_exists($folderPath)){
-              mkdir($folderPath);
-            }
-            file_put_contents($file, $image_base64);
-             //dd('end');
-            $path = 'http://143.110.253.122/'.$file;//need some changes
-            $filename = basename($path);
-            $input['file'] = trim($request->member_code)."_".$request->attend_date."_".time().'.jpg';
-            $imgFile=Image::make($path)->save(public_path($folderPath.$filename));
+            if($request->image!=''){
+                $folderPath = "studentphoto/".trim($request->member_code)."/";
+                $base64Image = explode(";base64,", $request->image);
+                $explodeImage = explode("image/", $base64Image[0]);
+                $imageType = $explodeImage[1];
+                $image_base64 = base64_decode($base64Image[1]);
+                $file = $folderPath . uniqid() . '.'.$imageType;
+                if (!file_exists($folderPath)){
+                mkdir($folderPath);
+                }
+                file_put_contents($file, $image_base64);
+                //dd('end');
+                $path = 'http://143.110.253.122/'.$file;//need some changes
+                $filename = basename($path);
+                $input['file'] = trim($request->member_code)."_".$request->attend_date."_".time().'.jpg';
+                $imgFile=Image::make($path)->save(public_path($folderPath.$filename));
 
-            $imgFile->resize(300, 300, function ($constraint) {
-                $constraint->aspectRatio();
-            })->save($folderPath.'/'.$input['file']);
-            unlink(public_path($file));
+                $imgFile->resize(300, 300, function ($constraint) {
+                    $constraint->aspectRatio();
+                })->save($folderPath.'/'.$input['file']);
+                unlink(public_path($file));
+            }else{
+                $input['file']='NA'; 
+            }    
+
             $postParameter = ['user_id' => $request->user_id,'atten_date' => $request->attend_date,'punch_in'=>$time,'lat'=>$request->lat,'long'=>$request->long,'member_id'=>$request->member_id,'member_code'=>$request->member_code,'status'=>2,'transfer_status'=>1,'atten_type'=>$attn_type,'member_type'=>$member_type,'punch_in_place'=>$request->location,'reason'=>$request->reason,'center_id'=>$request->center_id,'photo'=>$input['file']];
             if(sizeof($details)>0){
                 //dd($details[0]->id);
