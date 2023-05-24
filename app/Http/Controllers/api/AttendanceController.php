@@ -10,6 +10,7 @@ use DB;
 use Image;
 use App\Models\User;
 use App\Models\Photo;
+use Excel;
 class AttendanceController extends Controller
 {
     /**
