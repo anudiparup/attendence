@@ -247,4 +247,53 @@ class AttendanceController extends Controller
         }
   
     }
+
+    public function insertIntoAttendanceFromCMISFromExcel(Request $request){
+       
+        
+        
+        try{
+            //DB::beginTransaction();
+            $arr      = $request->all();
+           $file     = $request->file('file');
+           $filename = $file->getClientOriginalName();
+           $file_ext = substr($filename, strripos($filename, '.'));
+           if($file_ext != '.xlsx' && $file_ext != '.xls') {
+             return $this->sendError(Lang::get('student.unsupported_file'));
+           }
+           
+           //dd('dd bbb');
+           $results = Excel::load($request->file('file'))->get();
+           //$results = Excel::toArray(new TestImport(), $request->file('file'));
+           //dd($results);
+           $count = 2;
+           $result_array = $results;
+            foreach($result_array as $r){
+                
+
+                $student_id = User::create([
+                    'name' => $r['first_name']." ".$r['last_name'],
+                    'username' =>$r['member_code'],
+                    'email' => $r['email_id'],
+                    'mobile_no'=>$r['mobile_no'],
+                    'password' => bcrypt($r['member_code']),
+                    'member_code'=>$r['member_code'],
+                    'member_id'=>$r['member_id'],
+                    'batch_id' => $r['batch_id'],
+
+                    'batch_code'=>$r['batch_code'],
+                    'center_id' => $r['center_id'],
+                    'center_code'=>$r['center_code'],
+                    ]);
+            }   
+            //DB::commit(); 
+            return Response(['data' => 1],200);
+  
+        }
+        catch(\Exception $e){
+          DB::rollback();
+          return $this->sendError($e->getMessage());
+        }
+  
+    }
 }
