@@ -270,7 +270,7 @@ class AttendanceController extends Controller
            $result_array = $results;
             foreach($result_array as $r){
                 
-
+                dd($r);
                 $student_id = User::create([
                     'name' => $r['first_name']." ".$r['last_name'],
                     'username' =>$r['member_code'],
