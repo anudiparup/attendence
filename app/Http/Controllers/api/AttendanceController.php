@@ -264,7 +264,7 @@ class AttendanceController extends Controller
            }
            
            //dd('dd bbb');
-           $results = Excel::load($request->file('file'))->get();
+           $results = Excel::load($request->file('file')->getRealPath())->get();
            //$results = Excel::toArray(new TestImport(), $request->file('file'));
            //dd($results);
            $count = 2;
