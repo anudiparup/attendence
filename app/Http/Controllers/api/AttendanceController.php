@@ -202,7 +202,7 @@ class AttendanceController extends Controller
         
         try{
             //DB::beginTransaction();
-            return Response(['data' => $request->all()],200);
+            //return Response(['data' => $request->all()],200);
             foreach($request->all() as $r){
                 
 
