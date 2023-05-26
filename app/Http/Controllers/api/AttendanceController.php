@@ -206,7 +206,11 @@ class AttendanceController extends Controller
             foreach($request->all() as $r){
                 
 
-                $student_id = User::create([
+                $student_id = User::updateOrInsert(
+                    [
+                        'username' =>$r['member_code'],
+                    ],
+                    [
                     'name' => $r['first_name']." ".$r['last_name'],
                     'username' =>$r['member_code'],
                     'email' => $r['email_id'],
