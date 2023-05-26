@@ -69,7 +69,7 @@ class AttendanceController extends Controller
                 $input['file'] = trim($request->member_code)."_".$request->attend_date."_".time().'.jpg';
                 $imgFile=Image::make($path)->save(public_path($folderPath.$filename));
 
-                $imgFile->resize(300, 300, function ($constraint) {
+                $imgFile->resize(200, 200, function ($constraint) {
                     $constraint->aspectRatio();
                 })->save($folderPath.'/'.$input['file']);
                 unlink(public_path($file));
