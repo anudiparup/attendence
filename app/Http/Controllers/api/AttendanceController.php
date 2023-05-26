@@ -64,7 +64,7 @@ class AttendanceController extends Controller
                 }
                 file_put_contents($file, $image_base64);
                 //dd('end');
-                $path = 'http://143.110.253.122/'.$file;//need some changes
+                $path = 'https://143.110.253.122/'.$file;//need some changes
                 $filename = basename($path);
                 $input['file'] = trim($request->member_code)."_".$request->attend_date."_".time().'.jpg';
                 $imgFile=Image::make($path)->save(public_path($folderPath.$filename));
