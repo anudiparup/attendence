@@ -28,6 +28,8 @@ Route::post('insertIntoAttendanceFromCMIS',[AttendanceController::class,'insertI
 Route::post('UpdateAttendance',[AttendanceController::class,'UpdateAttendance']);
 Route::post('insertIntoAttendanceFromCMISFromExcel',[AttendanceController::class,'insertIntoAttendanceFromCMISFromExcel']);
 
+Route::get('fetchDataForCheckingRedis',[AttendanceController::class,'fetchDataForCheckingRedis']);
+
 Route::group(['middleware' => 'auth:sanctum'],function(){
     Route::get('user',[UserController::class,'userDetails']);
     Route::get('logout',[UserController::class,'logout']);

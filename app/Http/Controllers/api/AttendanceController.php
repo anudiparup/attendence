@@ -303,4 +303,10 @@ class AttendanceController extends Controller
         }
   
     }
+    public function fetchDataForCheckingRedis(){
+
+        $x=Attendance::get();
+        return Response(['data' => $x],200);
+
+    }
 }
