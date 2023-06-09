@@ -11,6 +11,7 @@ use Image;
 use App\Models\User;
 use App\Models\Photo;
 use Excel;
+use Redis;
 class AttendanceController extends Controller
 {
     /**
@@ -305,8 +306,9 @@ class AttendanceController extends Controller
     }
     public function fetchDataForCheckingRedis(){
 
-        $x=Attendance::get();
-        return Response(['data' => $x],200);
+        //$x=Attendance::get();
+        //Redis::get('address','ranaghat');
+        return Response(['data' => Redis::get('address')],200);
 
     }
     //mm
