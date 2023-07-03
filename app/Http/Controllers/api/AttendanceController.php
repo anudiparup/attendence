@@ -30,7 +30,7 @@ class AttendanceController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store Attendance into db.
      */
     public function storeAttendance(Request $request)
     {
@@ -122,7 +122,7 @@ class AttendanceController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * fetch attendence based on Current date.
      */
     public function fetchAttendanceBasedOnCurrentDate($user_id,$attn_date)
     {
@@ -134,6 +134,9 @@ class AttendanceController extends Controller
         ->get(['id as id','punch_in as punch_in','punch_out as punch_out','atten_date as date','status as status','user_id as user_id']);
         return Response(['datas' => $details,'status'=>1,'cur_date'=>$attn_date],200);
     }
+    /**
+     * fetch attendence based.
+     */
     public function fetchAttendance($user_id,$cur_month,$cur_year)
     {
         //
@@ -174,32 +177,12 @@ class AttendanceController extends Controller
     {
         //
     }
-    // public function imageUpload(Request $request){
-    //     // $file = $request->file('wcc_file');
-        
-    //     // //foreach ($files as $file) { 
-
-    //     //   $filename = $file->getClientOriginalName();
-    //     //   $file_ext = $file->extension();// get file extention
-    //     //   $filename = $member_code."-".$doctype;
-    //     //   $destinationPath = "uploads/wcc";
-
-    //       $image = $request->file('file');
-    //         $input['file'] = time().'.'.$image->getClientOriginalExtension();
-            
-    //         $destinationPath = public_path('/abc');
-    //         $imgFile = Image::make($image->getRealPath());
-    //         $imgFile->resize(150, 150, function ($constraint) {
-    //             $constraint->aspectRatio();
-    //         })->save($destinationPath.'/'.$input['file']);
-    //         // $destinationPath = public_path('/uploads');
-    //         // $image->move($destinationPath, $input['file']);
-    // }
+    /**
+     * insert data attendence app from cmis at the time of enrollment if batch type=Attendance based.
+     */
 
     public function insertIntoAttendanceFromCMIS(Request $request){
        
-        
-        
         try{
             //DB::beginTransaction();
            // return Response(['data' => $request->all()],200);

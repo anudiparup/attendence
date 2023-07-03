@@ -37,7 +37,7 @@ class UserController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Fetch user details after login.
      */
     public function userDetails(): Response
     {
