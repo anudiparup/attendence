@@ -43,6 +43,8 @@ class Handler extends ExceptionHandler
     {
         $this->reportable(function (Throwable $e) {
             //
+            //Log::info($e->getMessage());
+            //Log::channel('custom')->error('Exception occurred: ' . $e->getMessage());
         });
     }
 }

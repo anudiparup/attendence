@@ -12,6 +12,7 @@ use App\Models\User;
 use App\Models\Photo;
 use Excel;
 use Redis;
+use Illuminate\Support\Facades\Log;
 class AttendanceController extends Controller
 {
     /**
@@ -305,10 +306,21 @@ class AttendanceController extends Controller
   
     }
     public function fetchDataForCheckingRedis(){
+        try{
+            
+            //$x=Attendance::where('ia',$x['x'])->get();
+            $user=[];
+            Log::channel('custom')->info('Exception occurred: ');
+            $name = $user[0];
+        }
+        catch (Throwable $e) { 
+            //dd($e->getMessage());
+            //Log::error($e);
+            
+            // Log::channel('custom')->error('Stack trace: ' . $e->getTraceAsString());
+        }
 
-        //$x=Attendance::get();
-        //Redis::get('address','ranaghat');
-        return Response(['data' => Redis::get('address')],200);
+        
 
     }
     //mm
