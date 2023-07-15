@@ -11,6 +11,7 @@ use Image;
 use App\Models\User;
 use App\Models\Photo;
 use Excel;
+use Illuminate\Support\Facades\Log;
 class AttendanceController extends Controller
 {
     /**
@@ -287,9 +288,19 @@ class AttendanceController extends Controller
   
     }
     public function fetchDataForCheckingRedis(){
+        try{
+            $x['s']=12/0;
+            //$x=Attendance::where('ia',$x['x'])->get();
+        }
+        catch (Exception $e) { 
+            //dd($e->getMessage());
+            Log::channel('custom')->error('Exception occurred: ' . $e->getMessage());
+            Log::channel('custom')->error('Stack trace: ' . $e->getTraceAsString());
+        }
 
-        $x=Attendance::get();
-        return Response(['data' => $x],200);
+        
 
     }
+    
+    
 }
