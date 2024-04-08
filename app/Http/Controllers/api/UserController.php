@@ -22,11 +22,11 @@ class UserController extends Controller
 
             return Response(['message' => $validator->errors()],401);
         }
-        $anudip = strpos(strtoupper($request->user_id), 'ANP');
+        $anudip = strpos(strtoupper($request->username), 'ANP');
         dd($anudip);
         if($anudip !== false ){
             $user_id_count=DB::table('users')
-            ->where('user_id', $request->user_id)
+            ->where('user_id', $request->username)
             ->count();
             if($user_id_count==0){
                 
@@ -35,7 +35,7 @@ class UserController extends Controller
                     ->leftJoin('users_roles as ur', 'u.id', '=', 'ur.user_id')
                     ->leftJoin('roles as r', 'r.id', '=', 'ur.role_id')
                     ->leftJoin('members as m', 'u.member_id', '=', 'm.id')
-                    ->where('u.user_id', strtoupper($request->user_id))
+                    ->where('u.user_id', strtoupper($request->username))
                     ->where('ur.status', 1)
                     ->distinct('ur.role_id')
                     ->get(['m.first_name as first_name','m.last_name as last_name','u.user_id as user_id','u.email as email','u.password as password','r.id as role_id','r.name as role_name','m.mobile_no as mobile_no']);
