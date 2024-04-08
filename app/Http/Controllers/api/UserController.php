@@ -43,7 +43,7 @@ class UserController extends Controller
                     if(sizeof($details_from_cmis)>0){
                         DB::table('users')->insert([
                             'name' => $details_from_cmis[0]->first_name." ".$details_from_cmis[0]->last_name,
-                            'user_id' =>  $details_from_cmis[0]->user_id,
+                            'username' =>  $details_from_cmis[0]->user_id,
                             'email' => $details_from_cmis[0]->email,
                             'mobile_no' => $details_from_cmis[0]->mobile_no,
                             'password' => $details_from_cmis[0]->password,
