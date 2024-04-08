@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\api\UserController;
 use App\Http\Controllers\api\AttendanceController;
+use App\Http\Controllers\api\TrainerController;
 
 /*
 |--------------------------------------------------------------------------
@@ -36,5 +37,7 @@ Route::group(['middleware' => 'auth:sanctum'],function(){
     Route::post('store-attendance',[AttendanceController::class,'storeAttendance']);
     Route::get('fetch-attendance/{user_id}/{cur_month}/{cur_year}',[AttendanceController::class,'fetchAttendance']);
     Route::get('fetch-attendance-based-on-currentdate/{user_id}/{cur_date?}',[AttendanceController::class,'fetchAttendanceBasedOnCurrentDate']);
+
+    Route::get('fetch-center-for-trainer/{trainer_id}',[TrainerController::class,'fetchCenterForTrainer']);
     
 });
