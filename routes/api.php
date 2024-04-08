@@ -39,5 +39,6 @@ Route::group(['middleware' => 'auth:sanctum'],function(){
     Route::get('fetch-attendance-based-on-currentdate/{user_id}/{cur_date?}',[AttendanceController::class,'fetchAttendanceBasedOnCurrentDate']);
 
     Route::get('fetch-center-for-trainer/{trainer_id}',[TrainerController::class,'fetchCenterForTrainer']);
+    Route::get('fetch-batch-by-center/{center_id}',[TrainerController::class,'fetchBatchByCenter']);
     
 });
