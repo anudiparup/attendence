@@ -59,6 +59,22 @@ class TrainerController extends Controller
         return $this->sendError($e->getMessage());
       }
     }
+    public function fetchStudentByBatch($batch_id)
+    {
+       try{
+
+        $members= DB::connection('mysql_2')->table('enrollments as e')
+                  ->leftJoin('members as m', 'u.member_id', '=', 'm.id')
+                  ->where('e.batch_id', $batch_id)
+                  ->where('e.status', 'enrolled')
+                  ->get(['m.first_name as first_name','m.last_name as last_name','m.member_code as member_code','m.id as member_id']);
+         return Response(['members' => $members],200);            
+
+       }catch(\Exception $e){
+        DB::rollback();
+        return $this->sendError($e->getMessage());
+      }
+    }
 
     /**
      * Store Attendance into db.
