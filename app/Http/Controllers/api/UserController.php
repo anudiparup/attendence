@@ -22,6 +22,40 @@ class UserController extends Controller
 
             return Response(['message' => $validator->errors()],401);
         }
+        $anudip = strpos(strtoupper($request->user_id), 'ANP');
+        if($anudip !== false ){
+            $user_id_count=DB::table('users')
+            ->where('user_id', $request->user_id)
+            ->count();
+            if($user_id_count==0){
+                
+                //if($anudip !== false ){
+                    $details_from_cmis= DB::connection('mysql_2')->table('users as u')
+                    ->leftJoin('users_roles as ur', 'u.id', '=', 'ur.user_id')
+                    ->leftJoin('roles as r', 'r.id', '=', 'ur.role_id')
+                    ->leftJoin('members as m', 'u.member_id', '=', 'm.id')
+                    ->where('u.user_id', strtoupper($request->user_id))
+                    ->where('ur.status', 1)
+                    ->distinct('ur.role_id')
+                    ->get(['m.first_name as first_name','m.last_name as last_name','u.user_id as user_id','u.email as email','u.password as password','r.id as role_id','r.name as role_name','m.mobile_no as mobile_no']);
+                    if(sizeof($details_from_cmis)>0){
+                        DB::table('users')->insert([
+                            'name' => $details_from_cmis[0]->first_name." ".$details_from_cmis[0]->last_name,
+                            'user_id' =>  $details_from_cmis[0]->user_id,
+                            'email' => $details_from_cmis[0]->email,
+                            'mobile_no' => $details_from_cmis[0]->mobile_no,
+                            'password' => $details_from_cmis[0]->password,
+                            'status' => 1,
+                            'role_name' => 'trainer',
+                        ]);
+                    }else{
+                        return response(['status'=>0,'message' => "Incorrect Id or Password"], 400);
+                    }
+                    
+                //}
+
+            }
+        }   
    
         if(Auth::attempt($request->all())){
 
