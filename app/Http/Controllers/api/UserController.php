@@ -23,7 +23,7 @@ class UserController extends Controller
             return Response(['message' => $validator->errors()],401);
         }
         $anudip = strpos(strtoupper($request->username), 'ANP');
-        dd($anudip);
+        //dd($anudip);
         if($anudip !== false ){
             $user_id_count=DB::table('users')
             ->where('user_id', $request->username)
