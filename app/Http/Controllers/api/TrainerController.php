@@ -56,7 +56,8 @@ class TrainerController extends Controller
 
        }catch(\Exception $e){
         DB::rollback();
-        return $this->sendError($e->getMessage());
+        dd($e);
+        
       }
     }
     public function fetchStudentByBatch($batch_id)
@@ -71,8 +72,9 @@ class TrainerController extends Controller
          return Response(['members' => $members],200);            
 
        }catch(\Exception $e){
+        dd($e);
         DB::rollback();
-        return $this->sendError($e->getMessage());
+        //return $this->sendError($e->getMessage());
       }
     }
 
