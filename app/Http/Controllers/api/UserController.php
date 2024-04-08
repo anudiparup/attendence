@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Auth;
 use Validator;
+use DB;
 
 class UserController extends Controller
 {
