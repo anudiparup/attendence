@@ -200,7 +200,7 @@ class TrainerController extends Controller
                 //dd('end');
                 $path = 'https://attendanceapi.anudip.org/'.$file;//need some changes
                 $filename = basename($path);
-                $input['file'] = trim($request->Batch_code)."_".$request->attend_date."_".time().'.jpg';
+                $input['file'] = trim($request->batch_code)."_".$request->attend_date."_".time().'.jpg';
                 $imgFile=Image::make($path)->save(public_path($folderPath.$filename));
 
                 $imgFile->resize(200, 200, function ($constraint) {
