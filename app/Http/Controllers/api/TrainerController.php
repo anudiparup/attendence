@@ -218,7 +218,7 @@ class TrainerController extends Controller
                     $members=DB::connection('mysql_2')->table('members')->where('id',$member_id)->get(['member_code','first_name','last_name','email_id','mobile_no']);
 
                     DB::table('users')->updateOrInsert([
-                        'member_id' => $members[0]->id,
+                        'member_id' => $member_id,
                     ],[
                         'name' => $members[0]->first_name." ".$members[0]->last_name,
                         'username' => $members[0]->member_code,
