@@ -74,9 +74,9 @@ class TrainerController extends Controller
         foreach($members as $m){
             $x=Attendance::where('member_id',$m->member_id)->count();
             if($x>0){
-              $x->type='out';
+              $m->type='out';
             }else{
-                $x->type='in';
+                $m->type='in';
             }
         }          
          return Response(['members' => $members],200);            
