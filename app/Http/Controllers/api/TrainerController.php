@@ -71,6 +71,14 @@ class TrainerController extends Controller
                   ->where('e.batch_id', $batch_id)
                   ->where('e.status', 'enrolled')
                   ->get(['m.first_name as first_name','m.last_name as last_name','m.member_code as member_code','m.id as member_id']);
+        foreach($members as $m){
+            $x=Attendance::where('member_id',$m->member_id)->count();
+            if($x>0){
+              $x->type='out';
+            }else{
+                $x->type='in';
+            }
+        }          
          return Response(['members' => $members],200);            
 
        }catch(\Exception $e){
