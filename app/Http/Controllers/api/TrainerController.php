@@ -225,7 +225,7 @@ class TrainerController extends Controller
                         'email' => $members[0]->email_id,
                         'mobile_no'=>$members[0]->mobile_no,
                         'password'=>Hash::make('1234567'),
-                        'member_id'=>$members[0]->id,
+                        'member_id'=>$member_id,
                         'member_code'=>$members[0]->member_code,
                         'batch_id'=>$request->batch_id,
                         'batch_code'=>$request->batch_code,
@@ -234,7 +234,7 @@ class TrainerController extends Controller
                         'status'=>1,
                         'role_name'=>'student'
                     ]);
-                    $user_id=DB::table('users')->where('member_id', $members[0]->id)->value('id');
+                    $user_id=DB::table('users')->where('member_id', $member_id)->value('id');
 
                     $datas=Users::where('id',$user_id)->get(['member_code','member_id']);
                         $postParameter = ['user_id' => $user_id,'atten_date' => $request->attend_date,'punch_in'=>$time,'lat'=>$request->lat,'long'=>$request->long,'member_id'=>$datas[0]->member_id,'member_code'=>$datas[0]->member_code,'status'=>2,'transfer_status'=>1,'atten_type'=>$attn_type,'member_type'=>$member_type,'punch_in_place'=>$request->location,'reason'=>$request->reason,'center_id'=>$request->center_id,'photo'=>$input['file'],'batch_id'=>$request->batch_id,'batch_code'=>$request->batch_code];
