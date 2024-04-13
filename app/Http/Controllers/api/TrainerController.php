@@ -72,10 +72,16 @@ class TrainerController extends Controller
                   ->where('e.status', 'enrolled')
                   ->get(['m.first_name as first_name','m.last_name as last_name','m.member_code as member_code','m.id as member_id']);
         foreach($members as $m){
-            $x=Attendance::where('member_id',$m->member_id)->where('atten_date',date('Y-m-d'))->count();
+            $x=Attendance::where('member_id',$m->member_id)->where('atten_date',date('Y-m-d'))->get(['punch_in','punch_out']);
             //dd($m->member_id,$x,date('Y-m-d'));
-            if($x>0){
-              $m->type='out';
+            if(sizeof($x)>0){
+                if($x->punch_out!=null){
+                    $m->type='complete';
+                
+                }else{
+                    $m->type='out';
+                }
+              
             }else{
                 $m->type='in';
             }
