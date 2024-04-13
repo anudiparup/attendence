@@ -136,7 +136,7 @@ class TrainerController extends Controller
                 $input['file']='NA'; 
             }    
 
-            $postParameter = ['user_id' => $request->user_id,'atten_date' => $request->attend_date,'punch_in'=>$time,'lat'=>$request->lat,'long'=>$request->long,'member_id'=>$request->member_id,'member_code'=>$request->member_code,'status'=>2,'transfer_status'=>1,'atten_type'=>$attn_type,'member_type'=>$member_type,'punch_in_place'=>$request->location,'reason'=>$request->reason,'center_id'=>$request->center_id,'photo'=>$input['file'],'batch_id'=>$request->batch_id,'batch_code'=>$request->batch_code];
+            $postParameter = ['user_id' => $request->user_id,'atten_date' => $request->attend_date,'punch_in'=>$time,'lat'=>$request->lat,'long'=>$request->long,'member_id'=>$request->member_id,'member_code'=>$request->member_code,'status'=>2,'transfer_status'=>1,'atten_type'=>$attn_type,'member_type'=>$member_type,'punch_in_place'=>$request->location,'reason'=>$request->reason,'center_id'=>$request->center_id,'photo'=>$input['file'],'batch_id'=>$request->batch_id,'batch_code'=>$request->batch_code,'bulk'=>0];
             if(sizeof($details)>0){
                 //dd($details[0]->id);
                 $curlHandle = curl_init('https://cmis3api.anudip.org/api/insertFromAttenApp');
@@ -245,7 +245,7 @@ class TrainerController extends Controller
                     $user_id=DB::table('users')->where('member_id', $member_id)->value('id');
 
                     $datas=User::where('id',$user_id)->get(['member_code','member_id']);
-                        $postParameter = ['user_id' => $user_id,'atten_date' => $request->attend_date,'punch_in'=>$time,'lat'=>$request->lat,'long'=>$request->long,'member_id'=>$datas[0]->member_id,'member_code'=>$datas[0]->member_code,'status'=>2,'transfer_status'=>1,'atten_type'=>$attn_type,'member_type'=>$member_type,'punch_in_place'=>$request->location,'reason'=>$request->reason,'center_id'=>$request->center_id,'photo'=>$input['file'],'batch_id'=>$request->batch_id,'batch_code'=>$request->batch_code];
+                        $postParameter = ['user_id' => $user_id,'atten_date' => $request->attend_date,'punch_in'=>$time,'lat'=>$request->lat,'long'=>$request->long,'member_id'=>$datas[0]->member_id,'member_code'=>$datas[0]->member_code,'status'=>2,'transfer_status'=>1,'atten_type'=>$attn_type,'member_type'=>$member_type,'punch_in_place'=>$request->location,'reason'=>$request->reason,'center_id'=>$request->center_id,'photo'=>$input['file'],'batch_id'=>$request->batch_id,'batch_code'=>$request->batch_code,'bulk'=>1];
 
                         $curlHandle = curl_init('https://cmis3api.anudip.org/api/insertFromAttenApp');
                         curl_setopt($curlHandle, CURLOPT_POSTFIELDS, $postParameter);
@@ -271,7 +271,7 @@ class TrainerController extends Controller
                     $user_id=DB::table('users')->where('member_id', $member_id)->value('id');
                     $details = Attendance::where('atten_date', $request->attend_date)->where('user_id', $user_id)->get();
                     $datas=Users::where('id',$user_id)->get(['member_code','member_id']);
-                        $postParameter = ['user_id' => $user_id,'atten_date' => $request->attend_date,'punch_in'=>$time,'lat'=>$request->lat,'long'=>$request->long,'member_id'=>$datas[0]->member_id,'member_code'=>$datas[0]->member_code,'status'=>2,'transfer_status'=>1,'atten_type'=>$attn_type,'member_type'=>$member_type,'punch_in_place'=>$request->location,'reason'=>$request->reason,'center_id'=>$request->center_id,'photo'=>$input['file'],'batch_id'=>$request->batch_id,'batch_code'=>$request->batch_code];
+                        $postParameter = ['user_id' => $user_id,'atten_date' => $request->attend_date,'punch_in'=>$time,'lat'=>$request->lat,'long'=>$request->long,'member_id'=>$datas[0]->member_id,'member_code'=>$datas[0]->member_code,'status'=>2,'transfer_status'=>1,'atten_type'=>$attn_type,'member_type'=>$member_type,'punch_in_place'=>$request->location,'reason'=>$request->reason,'center_id'=>$request->center_id,'photo'=>$input['file'],'batch_id'=>$request->batch_id,'batch_code'=>$request->batch_code,'bulk'=>1];
 
                         Attendance::where('atten_date', $request->attend_date)->where('user_id', $user_id)->update(['punch_out'=>$time,'punch_out_lat'=>$request->lat,'punch_out_long'=>$request->long,'status'=>0,'punch_out_place'=>$request->location]);
 
