@@ -75,7 +75,7 @@ class TrainerController extends Controller
             $x=Attendance::where('member_id',$m->member_id)->where('atten_date',date('Y-m-d'))->get(['punch_in','punch_out']);
             //dd($m->member_id,$x,date('Y-m-d'));
             if(sizeof($x)>0){
-                if($x->punch_out!=null){
+                if($x[0]->punch_out!=null){
                     $m->type='complete';
                 
                 }else{
