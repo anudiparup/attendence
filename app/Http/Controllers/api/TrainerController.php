@@ -268,10 +268,10 @@ class TrainerController extends Controller
                 return Response(['message' => 'inserted successfully','status'=>1,'data'=>$x],200);
 
             }else{
-                dd($request->studentList);
+                
                 foreach($request->studentList as $member_id){
                     $user_id=DB::table('users')->where('member_id', $member_id)->value('id');
-                    //dd($user_id);
+                    dd($user_id);
                     $details = Attendance::where('atten_date', $request->attend_date)->where('user_id', $user_id)->get();
                     $datas=User::where('id',$user_id)->get(['member_code','member_id']);
                         $postParameter = ['user_id' => $user_id,'atten_date' => $request->attend_date,'punch_in'=>$time,'lat'=>$request->lat,'long'=>$request->long,'member_id'=>$datas[0]->member_id,'member_code'=>$datas[0]->member_code,'status'=>2,'transfer_status'=>1,'atten_type'=>$attn_type,'member_type'=>$member_type,'punch_in_place'=>$request->location,'reason'=>$request->reason,'center_id'=>$request->center_id,'photo'=>$input['file'],'batch_id'=>$request->batch_id,'batch_code'=>$request->batch_code,'bulk'=>1];
