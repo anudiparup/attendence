@@ -194,30 +194,31 @@ class TrainerController extends Controller
             // }
             $attn_type='present';
             $member_type='student';
-            if($request->image!=''){
-                $folderPath = "volume_blr1_01/".trim($request->attend_date)."/";
-                $base64Image = explode(";base64,", $request->image);
-                $explodeImage = explode("image/", $base64Image[0]);
-                $imageType = $explodeImage[1];
-                $image_base64 = base64_decode($base64Image[1]);
-                $file = $folderPath . uniqid() . '.'.$imageType;
-                if (!file_exists($folderPath)){
-                mkdir($folderPath);
-                }
-                file_put_contents($file, $image_base64);
-                //dd('end');
-                $path = 'https://attendanceapi.anudip.org/'.$file;//need some changes
-                $filename = basename($path);
-                $input['file'] = trim($request->batch_code)."_".$request->attend_date."_".time().'.jpg';
-                $imgFile=Image::make($path)->save(public_path($folderPath.$filename));
+            // if($request->image!=''){
+            //     $folderPath = "volume_blr1_01/".trim($request->attend_date)."/";
+            //     $base64Image = explode(";base64,", $request->image);
+            //     $explodeImage = explode("image/", $base64Image[0]);
+            //     $imageType = $explodeImage[1];
+            //     $image_base64 = base64_decode($base64Image[1]);
+            //     $file = $folderPath . uniqid() . '.'.$imageType;
+            //     if (!file_exists($folderPath)){
+            //     mkdir($folderPath);
+            //     }
+            //     file_put_contents($file, $image_base64);
+            //     //dd('end');
+            //     $path = 'https://attendanceapi.anudip.org/'.$file;//need some changes
+            //     $filename = basename($path);
+            //     $input['file'] = trim($request->batch_code)."_".$request->attend_date."_".time().'.jpg';
+            //     $imgFile=Image::make($path)->save(public_path($folderPath.$filename));
 
-                $imgFile->resize(200, 200, function ($constraint) {
-                    $constraint->aspectRatio();
-                })->save($folderPath.'/'.$input['file']);
-                unlink(public_path($file));
-            }else{
-                $input['file']='NA'; 
-            }  
+            //     $imgFile->resize(200, 200, function ($constraint) {
+            //         $constraint->aspectRatio();
+            //     })->save($folderPath.'/'.$input['file']);
+            //     unlink(public_path($file));
+            // }else{
+            //     $input['file']='NA'; 
+            // }  
+            $input['file']='NA';
             if($request->type=='in'){
 
                 
@@ -269,7 +270,7 @@ class TrainerController extends Controller
 
                 foreach($request->studentList as $member_id){
                     $user_id=DB::table('users')->where('member_id', $member_id)->value('id');
-                    dd($user_id);
+                    //dd($user_id);
                     $details = Attendance::where('atten_date', $request->attend_date)->where('user_id', $user_id)->get();
                     $datas=User::where('id',$user_id)->get(['member_code','member_id']);
                         $postParameter = ['user_id' => $user_id,'atten_date' => $request->attend_date,'punch_in'=>$time,'lat'=>$request->lat,'long'=>$request->long,'member_id'=>$datas[0]->member_id,'member_code'=>$datas[0]->member_code,'status'=>2,'transfer_status'=>1,'atten_type'=>$attn_type,'member_type'=>$member_type,'punch_in_place'=>$request->location,'reason'=>$request->reason,'center_id'=>$request->center_id,'photo'=>$input['file'],'batch_id'=>$request->batch_id,'batch_code'=>$request->batch_code,'bulk'=>1];
