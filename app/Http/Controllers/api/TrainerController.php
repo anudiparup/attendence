@@ -268,23 +268,27 @@ class TrainerController extends Controller
                 return Response(['message' => 'inserted successfully','status'=>1,'data'=>$x],200);
 
             }else{
-                
+                $arr=[];
                 foreach($request->studentList as $member_id){
                     $user_id=DB::table('users')->where('member_id', $member_id)->value('id');
-                    dd($user_id);
                     $details = Attendance::where('atten_date', $request->attend_date)->where('user_id', $user_id)->get();
-                    $datas=User::where('id',$user_id)->get(['member_code','member_id']);
+                    if(sizeof($details)>0){
+                        $datas=User::where('id',$user_id)->get(['member_code','member_id']);
                         $postParameter = ['user_id' => $user_id,'atten_date' => $request->attend_date,'punch_in'=>$time,'lat'=>$request->lat,'long'=>$request->long,'member_id'=>$datas[0]->member_id,'member_code'=>$datas[0]->member_code,'status'=>2,'transfer_status'=>1,'atten_type'=>$attn_type,'member_type'=>$member_type,'punch_in_place'=>$request->location,'reason'=>$request->reason,'center_id'=>$request->center_id,'photo'=>$input['file'],'batch_id'=>$request->batch_id,'batch_code'=>$request->batch_code,'bulk'=>1];
 
                         Attendance::where('atten_date', $request->attend_date)->where('user_id', $user_id)->update(['punch_out'=>$time,'punch_out_lat'=>$request->lat,'punch_out_long'=>$request->long,'status'=>0,'punch_out_place'=>$request->location]);
 
                         Photo::create(['user_id' => $user_id,'attendance_id'=>$details[0]->id,'punch_type'=>'O','photo_name'=>$input['file'],'lat'=>$request->lat,'long'=>$request->long,'place'=>$request->location,'punch_time'=>$time,'punch_date'=>$request->attend_date,'member_code'=>trim($datas[0]->member_code)]);
 
-                       
+                        
                         DB::commit();
+                    } else{
+                        $members=DB::connection('mysql_2')->table('members')->where('id',$member_id)->get(['member_code','first_name','last_name']);
+                        array_push($arr,$members);
+                    }   
                 }    
                 $x=['date' => $request->attend_date];
-                return Response(['message' => 'updated successfully','status'=>1,'data'=>$x],200);
+                return Response(['message' => 'updated successfully','status'=>1,'data'=>$x,'members'=>$arr],200);
 
             }
             
