@@ -73,6 +73,7 @@ class TrainerController extends Controller
                   ->get(['m.first_name as first_name','m.last_name as last_name','m.member_code as member_code','m.id as member_id']);
         foreach($members as $m){
             $x=Attendance::where('member_id',$m->member_id)->where('atten_date',date('Y-m-d'))->count();
+            dd($m->member_id,$x);
             if($x>0){
               $m->type='out';
             }else{
