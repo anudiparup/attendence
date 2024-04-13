@@ -219,7 +219,7 @@ class TrainerController extends Controller
             //     $input['file']='NA'; 
             // }  
             $input['file']='NA';
-            dd('hgh');
+            
             if($request->type=='in'){
 
                 
@@ -268,7 +268,7 @@ class TrainerController extends Controller
                 return Response(['message' => 'inserted successfully','status'=>1,'data'=>$x],200);
 
             }else{
-
+                dd($request->studentList);
                 foreach($request->studentList as $member_id){
                     $user_id=DB::table('users')->where('member_id', $member_id)->value('id');
                     //dd($user_id);
