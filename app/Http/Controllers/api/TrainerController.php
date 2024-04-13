@@ -219,6 +219,7 @@ class TrainerController extends Controller
             //     $input['file']='NA'; 
             // }  
             $input['file']='NA';
+            dd('hgh');
             if($request->type=='in'){
 
                 
