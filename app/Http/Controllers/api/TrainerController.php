@@ -194,31 +194,31 @@ class TrainerController extends Controller
             // }
             $attn_type='present';
             $member_type='student';
-            // if($request->image!=''){
-            //     $folderPath = "volume_blr1_01/".trim($request->attend_date)."/";
-            //     $base64Image = explode(";base64,", $request->image);
-            //     $explodeImage = explode("image/", $base64Image[0]);
-            //     $imageType = $explodeImage[1];
-            //     $image_base64 = base64_decode($base64Image[1]);
-            //     $file = $folderPath . uniqid() . '.'.$imageType;
-            //     if (!file_exists($folderPath)){
-            //     mkdir($folderPath);
-            //     }
-            //     file_put_contents($file, $image_base64);
-            //     //dd('end');
-            //     $path = 'https://attendanceapi.anudip.org/'.$file;//need some changes
-            //     $filename = basename($path);
-            //     $input['file'] = trim($request->batch_code)."_".$request->attend_date."_".time().'.jpg';
-            //     $imgFile=Image::make($path)->save(public_path($folderPath.$filename));
+            if($request->image!=''){
+                $folderPath = "volume_blr1_01/".trim($request->attend_date)."/";
+                $base64Image = explode(";base64,", $request->image);
+                $explodeImage = explode("image/", $base64Image[0]);
+                $imageType = $explodeImage[1];
+                $image_base64 = base64_decode($base64Image[1]);
+                $file = $folderPath . uniqid() . '.'.$imageType;
+                if (!file_exists($folderPath)){
+                mkdir($folderPath);
+                }
+                file_put_contents($file, $image_base64);
+                //dd('end');
+                $path = 'https://attendanceapi.anudip.org/'.$file;//need some changes
+                $filename = basename($path);
+                $input['file'] = trim($request->batch_code)."_".$request->attend_date."_".time().'.jpg';
+                $imgFile=Image::make($path)->save(public_path($folderPath.$filename));
 
-            //     $imgFile->resize(200, 200, function ($constraint) {
-            //         $constraint->aspectRatio();
-            //     })->save($folderPath.'/'.$input['file']);
-            //     unlink(public_path($file));
-            // }else{
-            //     $input['file']='NA'; 
-            // }  
-            $input['file']='NA';
+                $imgFile->resize(200, 200, function ($constraint) {
+                    $constraint->aspectRatio();
+                })->save($folderPath.'/'.$input['file']);
+                unlink(public_path($file));
+            }else{
+                $input['file']='NA'; 
+            }  
+            //$input['file']='NA';
             
             if($request->type=='in'){
 
@@ -287,8 +287,8 @@ class TrainerController extends Controller
                         array_push($arr,$members);
                     }   
                 }    
-                $x=['date' => $request->attend_date];
-                return Response(['message' => 'updated successfully','status'=>1,'data'=>$x,'members'=>$arr],200);
+                
+                return Response(['message' => 'updated successfully','status'=>1,'members'=>$arr],200);
 
             }
             
