@@ -283,6 +283,13 @@ class TrainerController extends Controller
                         $datas=User::where('id',$user_id)->get(['member_code','member_id']);
                         $postParameter = ['user_id' => $user_id,'atten_date' => $request->attend_date,'punch_in'=>$time,'lat'=>$request->lat,'long'=>$request->long,'member_id'=>$datas[0]->member_id,'member_code'=>$datas[0]->member_code,'status'=>2,'transfer_status'=>1,'atten_type'=>$attn_type,'member_type'=>$member_type,'punch_in_place'=>$request->location,'reason'=>$request->reason,'center_id'=>$request->center_id,'photo'=>$input['file'],'batch_id'=>$request->batch_id,'batch_code'=>$request->batch_code,'bulk'=>1];
 
+                        $curlHandle = curl_init('https://cmis4api.anudip.org/public/api/insertFromAttenApp');
+                        curl_setopt($curlHandle, CURLOPT_POSTFIELDS, $postParameter);
+                        curl_setopt($curlHandle, CURLOPT_RETURNTRANSFER, true);
+                        $curlResponse = curl_exec($curlHandle);
+                        //dd($curlResponse);
+                        curl_close($curlHandle);
+
                         Attendance::where('atten_date', $request->attend_date)->where('user_id', $user_id)->update(['punch_out'=>$time,'punch_out_lat'=>$request->lat,'punch_out_long'=>$request->long,'status'=>0,'punch_out_place'=>$request->location]);
 
                         Photo::create(['user_id' => $user_id,'attendance_id'=>$details[0]->id,'punch_type'=>'O','photo_name'=>$input['file'],'lat'=>$request->lat,'long'=>$request->long,'place'=>$request->location,'punch_time'=>$time,'punch_date'=>$request->attend_date,'member_code'=>trim($datas[0]->member_code)]);
