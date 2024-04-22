@@ -230,6 +230,7 @@ class AttendanceController extends Controller
         }
         catch(\Exception $e){
            // return Response(['data' => $e],200);
+           
           DB::rollback();
           return $this->sendError($e->getMessage());
         }
