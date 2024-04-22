@@ -207,7 +207,6 @@ class AttendanceController extends Controller
                     'batch_code'=>$r['batch_code'],
                     'center_id' => $r['center_id'],
                     'center_code'=>$r['center_code'],
-                    'role_name' =>'student',
                     ]);
             }   
             //DB::commit(); 
@@ -216,7 +215,7 @@ class AttendanceController extends Controller
         }
         catch(\Exception $e){
            // return Response(['data' => $e],200);
-          DB::rollback();
+          //DB::rollback();
           return $this->sendError($e->getMessage());
         }
   
