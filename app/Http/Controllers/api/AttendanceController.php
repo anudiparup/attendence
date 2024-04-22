@@ -226,8 +226,7 @@ class AttendanceController extends Controller
                     ]);
             }   
             //DB::commit(); 
-            return Response(['data' => 1],200);
-  
+            return Response(['data' => 1],200);  
         }
         catch(\Exception $e){
            // return Response(['data' => $e],200);
