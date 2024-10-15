@@ -55,6 +55,17 @@ return [
             'use_path_style_endpoint' => env('AWS_USE_PATH_STYLE_ENDPOINT', false),
             'throw' => false,
         ],
+        's3_1' => [
+            'driver' => 's3',
+            'key' => 'DO00AYZ2KJ8WBP2WXREV',
+            'secret' => 'zUX4CwImSwE5t+oTNSflQ6Cog4hqLrAvCQLDPToaW4U',
+            'endpoint' => 'https://blr1.digitaloceanspaces.com/',            
+            'region' => 'blr1',
+            'bucket' => 'cmis4storage',
+            'url' => 'https://cmis4storage.blr1.cdn.digitaloceanspaces.com/',
+            'visibility' => 'public',
+            
+        ],
 
     ],
 
