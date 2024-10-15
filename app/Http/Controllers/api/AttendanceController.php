@@ -168,7 +168,7 @@ class AttendanceController extends Controller
                 $imgFile->save($tempPath);
                 
                 // Upload the resized image to S3
-                Storage::disk('s3_1')->put($s3_path, file_get_contents($tempPath), [
+                Storage::disk('s3_1')->put($s3_path.$input['file'], file_get_contents($tempPath), [
                     'ContentType' => mime_content_type($tempPath),
                 ]);
 
