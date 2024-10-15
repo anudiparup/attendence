@@ -175,8 +175,8 @@ class AttendanceController extends Controller
                 
                 
                 // Optionally, remove the local temporary file
-                //unlink($tempPath);
-                //unlink($tempPath);
+                unlink($tempPath);
+                unlink($file);
             }else{
                 $input['file']='NA'; 
             }    
