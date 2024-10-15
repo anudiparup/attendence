@@ -32,7 +32,7 @@ class AttendanceController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function storeAttendance(Request $request)
+    public function storeAttendance_old(Request $request)
     {
         
        // DB::beginTransaction();
@@ -73,6 +73,108 @@ class AttendanceController extends Controller
                     $constraint->aspectRatio();
                 })->save($folderPath.'/'.$input['file']);
                 unlink(public_path($file));
+            }else{
+                $input['file']='NA'; 
+            }    
+
+            $postParameter = ['user_id' => $request->user_id,'atten_date' => $request->attend_date,'punch_in'=>$time,'lat'=>$request->lat,'long'=>$request->long,'member_id'=>$request->member_id,'member_code'=>$request->member_code,'status'=>2,'transfer_status'=>1,'atten_type'=>$attn_type,'member_type'=>$member_type,'punch_in_place'=>$request->location,'reason'=>$request->reason,'center_id'=>$request->center_id,'photo'=>$input['file'],'batch_id'=>$request->batch_id,'batch_code'=>$request->batch_code];
+            if(sizeof($details)>0){
+                //dd($details[0]->id);
+                $curlHandle = curl_init('https://cmis3api.anudip.org/api/insertFromAttenApp');
+                curl_setopt($curlHandle, CURLOPT_POSTFIELDS, $postParameter);
+                curl_setopt($curlHandle, CURLOPT_RETURNTRANSFER, true);
+                $curlResponse = curl_exec($curlHandle);
+                //dd($curlResponse);
+                curl_close($curlHandle);
+                Attendance::where('atten_date', $request->attend_date)->where('user_id', $details[0]->user_id)->update(['punch_out'=>$time,'punch_out_lat'=>$request->lat,'punch_out_long'=>$request->long,'status'=>0,'punch_out_place'=>$request->location]);
+
+                Photo::create(['user_id' => $request->user_id,'attendance_id'=>$details[0]->id,'punch_type'=>'O','photo_name'=>$input['file'],'lat'=>$request->lat,'long'=>$request->long,'place'=>$request->location,'punch_time'=>$time,'punch_date'=>$request->attend_date,'member_code'=>trim($request->member_code)]);
+
+                $x=['punch_out'=>$time,'date' => $request->attend_date,'punch_in'=>$details[0]->punch_in];
+                DB::commit();
+                    return Response(['message' => 'updated successfully','status'=>1,'data'=>$x],200);
+            }
+            //code for update end
+            
+            $curlHandle = curl_init('https://cmis3api.anudip.org/api/insertFromAttenApp');
+            curl_setopt($curlHandle, CURLOPT_POSTFIELDS, $postParameter);
+            curl_setopt($curlHandle, CURLOPT_RETURNTRANSFER, true);
+            $curlResponse = curl_exec($curlHandle);
+            //dd($curlResponse);
+            // // if(){
+                 
+            // // }
+            // if(curl_errno($curl)) {
+            //     $postParameter['transfer_status']=0;
+            // }
+            // //dd($postParameter);
+            $lastId=Attendance::create($postParameter)->id;
+            Photo::create(['user_id' => $request->user_id,'attendance_id'=>$lastId,'punch_type'=>'I','photo_name'=>$input['file'],'lat'=>$request->lat,'long'=>$request->long,'place'=>$request->location,'punch_time'=>$time,'punch_date'=>$request->attend_date,'member_code'=>trim($request->member_code)]);
+            curl_close($curlHandle);
+            $x=['punch_in'=>$time,'date' => $request->attend_date];
+            DB::commit();
+            return Response(['message' => 'inserted successfully','status'=>1,'data'=>$x],200);
+
+        } catch (Exception $e) { 
+            DB::rollback();
+            return $this->sendError($e->getMessage());
+        }
+    }
+
+    public function storeAttendance(Request $request)
+    {
+        
+       // DB::beginTransaction();
+        try { 
+            date_default_timezone_set('Asia/Kolkata');
+                if(str_starts_with($request->member_code, 'AF')){
+                $member_type='student';
+                }else{
+                $member_type='staff';
+                }
+                if($request->attend_date<date('Y-m-d')){
+                    $time=$request->punch_time==''?date('H:i:s'):$request->punch_time;
+                    $attn_type='past';
+                }else{
+                    $time=date('H:i:s');
+                    $attn_type='present';
+                }
+                
+            $details = Attendance::where('atten_date', $request->attend_date)->where('user_id', $request->user_id)->get();
+            if($request->image!=''){
+                $s3_path="attendance/".trim($request->attend_date)."/";
+                $folderPath = "volume_blr1_01/".trim($request->attend_date)."/";
+                $base64Image = explode(";base64,", $request->image);
+                $explodeImage = explode("image/", $base64Image[0]);
+                $imageType = $explodeImage[1];
+                $image_base64 = base64_decode($base64Image[1]);
+                $file = $folderPath . uniqid() . '.'.$imageType;
+                if (!file_exists($folderPath)){
+                mkdir($folderPath);
+                }
+                file_put_contents($file, $image_base64);
+                //dd('end');
+                $path = 'https://attendanceapi.anudip.org/'.$file;//need some changes
+                $filename = basename($path);
+                $input['file'] = trim($request->member_code)."_".$request->attend_date."_".time().'.jpg';
+
+                $imgFile = Image::make($path)->resize(200, 200, function ($constraint) {
+                    $constraint->aspectRatio();
+                });
+                
+                // Save the resized image temporarily in a local folder (if needed)
+                $tempPath = public_path($folderPath . $input['file']);
+                $imgFile->save($tempPath);
+                
+                // Upload the resized image to S3
+                Storage::disk('s3_1')->put($s3_path, file_get_contents($tempPath), [
+                    'ContentType' => mime_content_type($tempPath),
+                ]);
+
+                
+                
+                // Optionally, remove the local temporary file
+                unlink($tempPath);
             }else{
                 $input['file']='NA'; 
             }    
