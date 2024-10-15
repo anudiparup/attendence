@@ -11,6 +11,7 @@ use Image;
 use App\Models\User;
 use App\Models\Photo;
 use Excel;
+use Storage;
 class AttendanceController extends Controller
 {
     /**
