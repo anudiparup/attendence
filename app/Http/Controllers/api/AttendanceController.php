@@ -305,6 +305,7 @@ class AttendanceController extends Controller
     }
     public function fetchDataForCheckingRedis(){
 
+        dd('kk');
         $x=Attendance::get();
         return Response(['data' => $x],200);
 
