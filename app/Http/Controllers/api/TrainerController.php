@@ -103,7 +103,7 @@ class TrainerController extends Controller
         
        // DB::beginTransaction();
         try { 
-            date_default_timezone_set('Asia/Calcutta');
+            date_default_timezone_set('Asia/Kolkata');
                 if(str_starts_with($request->member_code, 'AF')){
                 $member_type='student';
                 }else{
@@ -192,7 +192,7 @@ class TrainerController extends Controller
         
        // DB::beginTransaction();
         try { 
-            date_default_timezone_set('Asia/Calcutta');
+            date_default_timezone_set('Asia/Kolkata');
             $time=date('H:i:s');
             // if($request->attend_date<date('Y-m-d')){
             //     $attn_type='past';
