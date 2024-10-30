@@ -13,6 +13,7 @@ use App\Models\Photo;
 use Excel;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Hash;
+use Storage;
 class TrainerController extends Controller
 
 {
