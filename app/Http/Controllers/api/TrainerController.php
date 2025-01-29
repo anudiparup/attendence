@@ -175,6 +175,9 @@ class TrainerController extends Controller
             //     $postParameter['transfer_status']=0;
             // }
             // //dd($postParameter);
+            if($curlResponse === false) {
+                return Response(['message' => 'server issue','status'=>1],200);
+            } 
             $lastId=Attendance::create($postParameter)->id;
             Photo::create(['user_id' => $request->user_id,'attendance_id'=>$lastId,'punch_type'=>'I','photo_name'=>$input['file'],'lat'=>$request->lat,'long'=>$request->long,'place'=>$request->location,'punch_time'=>$time,'punch_date'=>$request->attend_date,'member_code'=>trim($request->member_code)]);
             curl_close($curlHandle);
@@ -302,6 +305,10 @@ class TrainerController extends Controller
                         //dd($curlResponse);
                         curl_close($curlHandle);
 
+                        if($curlResponse === false) {
+                            return Response(['message' => 'server issue','status'=>1],200);
+                        } 
+
                         $lastId=Attendance::create($postParameter)->id;
                         Photo::create(['user_id' => $user_id,'attendance_id'=>$lastId,'punch_type'=>'I','photo_name'=>$input['file'],'lat'=>$request->lat,'long'=>$request->long,'place'=>$request->location,'punch_time'=>$time,'punch_date'=>$request->attend_date,'member_code'=>trim($datas[0]->member_code)]);
                         
@@ -328,6 +335,10 @@ class TrainerController extends Controller
                         $curlResponse = curl_exec($curlHandle);
                         //dd($curlResponse);
                         curl_close($curlHandle);
+
+                        if($curlResponse === false) {
+                            return Response(['message' => 'server issue','status'=>1],200);
+                        } 
 
                         Attendance::where('atten_date', $request->attend_date)->where('user_id', $user_id)->update(['punch_out'=>$time,'punch_out_lat'=>$request->lat,'punch_out_long'=>$request->long,'status'=>0,'punch_out_place'=>$request->location]);
 
@@ -420,6 +431,9 @@ class TrainerController extends Controller
             curl_setopt($curlHandle, CURLOPT_POSTFIELDS, $postParameter);
             curl_setopt($curlHandle, CURLOPT_RETURNTRANSFER, true);
             $curlResponse = curl_exec($curlHandle);
+            if($curlResponse === false) {
+                return Response(['message' => 'server issue','status'=>1],200);
+            } 
             //dd($curlResponse);
             // // if(){
                  
